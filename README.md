@@ -12,4 +12,4 @@ To use, clone this project and build targte LNXcodeSupport. You'll need to unsig
 
 ![Icon](http://injectionforxcode.johnholdsworth.com/gitdiff2.png)
 
-Lines that have been changed are highlighted in amber, new lines highighted in blue. Code lint suggestions are highlighted in dark blue and lines with a recent commit (the last 7 days by default) are highlighted in light green, fading with time. If you would like to revert the code change or apply the lint suggestion, hover over the highlight until a button appears and press it. See the document "LunnumberPlugin.pages for details about the XPC based architecture.
+Lines that have been changed are highlighted in amber, new lines highighted in blue. Code lint suggestions are highlighted in dark blue and lines with a recent commit (the last 7 days by default) are highlighted in light green, fading with time. If you would like to revert the code change or apply the lint suggestion, hover over the highlight until a button appears and press it. See the document "LineNumberPlugin.pages" for details about the XPC based architecture.
