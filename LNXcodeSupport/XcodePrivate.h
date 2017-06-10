@@ -74,6 +74,7 @@
 @end
 
 @interface SourceEditorContentView : NSTextView
+- (CGFloat)defaultLineHeight;
 @end
 
 @interface SourceEditorFontSmoothingTextLayer : CALayer

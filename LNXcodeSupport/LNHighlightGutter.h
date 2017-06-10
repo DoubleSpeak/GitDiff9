@@ -9,6 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 #import "LNFileHighlights.h"
+
+#define FLECK_WIDTH 6.
+#define FLECK_VISIBLE 2.
+
 @class LNExtensionClient;
 
 @interface LNHighlightGutter : NSView

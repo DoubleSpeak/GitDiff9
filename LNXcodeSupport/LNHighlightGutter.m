@@ -29,7 +29,7 @@
     NSTrackingArea *trackingArea;
 }
 
-static NSMutableArray *queue;
+static NSMutableArray<LNHighlightFleck *> *queue;
 
 + (LNHighlightFleck *)fleck {
     if (!queue)
@@ -46,7 +46,7 @@ static NSMutableArray *queue;
 - (BOOL)isEqual:(LNHighlightFleck *)object {
 //    if (![object isKindOfClass:[self class]]) NSLog( @"%@ %@", self, object );
     return ![object isKindOfClass:[self class]] ? [super isEqual:object] :
-        /*self.yoffset == object.yoffset &&*/ self.frame.origin.y == object.frame.origin.y && self.element == object.element;
+        self.element == object.element && NSEqualRects(self.frame, object.frame);
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
