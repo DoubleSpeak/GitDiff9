@@ -53,14 +53,30 @@
     [self.connectionDO setRootObject:self];
     [self.connectionDO registerName:self.serviceNameDO];
 
-    self.registrationDO =
-        (id)[NSConnection rootProxyForConnectionWithRegisteredName:XCODE_LINE_NUMBER_REGISTRATION host:nil];
-    [(id)self.registrationDO setProtocolForProxy:@protocol(LNRegistration)];
-    [self.registrationDO registerLineNumberService:self.serviceName];
-
     [self.service ping:1 callback:^(int test){
         NSLog(@"Connected to %@ -> %d", self.serviceName, test);
     }];
+
+    [self regsiterWithXcode];
+}
+
+- (void)regsiterWithXcode {
+    @try {
+        [self.registrationDO ping];
+    }
+    @catch(NSException *e) {
+        NSLog(@"Disconnected %@ %@", self.serviceName, e);
+        self.registrationDO = nil;
+    }
+
+    if (!self.registrationDO) {
+        self.registrationDO =
+        (id)[NSConnection rootProxyForConnectionWithRegisteredName:XCODE_LINE_NUMBER_REGISTRATION host:nil];
+        [(id)self.registrationDO setProtocolForProxy:@protocol(LNRegistration)];
+        [(id)self.registrationDO registerLineNumberService:self.serviceName];
+    }
+
+    [self performSelector:@selector(regsiterWithXcode) withObject:nil afterDelay:5.];
 }
 
 - (void)getConfig:(LNConfigCallback)callback {

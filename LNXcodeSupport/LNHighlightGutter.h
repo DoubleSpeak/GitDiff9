@@ -9,7 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 #import "LNFileHighlights.h"
-#import "LNExtensionClient.h"
+@class LNExtensionClient;
+
+@interface LNHighlightGutter : NSView
+@end
 
 @interface LNHighlightFleck : NSView
 @property LNHighlightElement *element;
@@ -17,7 +20,4 @@
 @property CGFloat yoffset;
 + (LNHighlightFleck *)fleck;
 + (void)recycle:(NSArray *)used;
-@end
-
-@interface LNHighlightGutter : NSView
 @end

@@ -54,8 +54,9 @@ NS_SWIFT_NAME(requestHighlights(forFile:callback:));
 
 @protocol LNRegistration <NSObject>
 
-- (void)registerLineNumberService:(NSString *_Nonnull)serviceName;
-- (void)deregisterService:(NSString *_Nonnull)serviceName;
+- (oneway void)registerLineNumberService:(NSString *_Nonnull)serviceName;
+- (oneway void)deregisterService:(NSString *_Nonnull)serviceName;
+- (oneway void)ping;
 
 @end
 

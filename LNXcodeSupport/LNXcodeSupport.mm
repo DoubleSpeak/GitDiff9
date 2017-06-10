@@ -9,6 +9,7 @@
 #import "LNXcodeSupport.h"
 #import "LNXcodeSupport-Swift.h"
 #import "LNExtensionClientDO.h"
+#import "LNHighlightGutter.h"
 #import "NSColor+NSString.h"
 
 #import "XcodePrivate.h"
@@ -17,7 +18,7 @@
 #define REFRESH_INTERVAL 60.
 #define REVERT_DELAY 1.5
 
-LNXcodeSupport *lineNumberPlugin;
+static LNXcodeSupport *lineNumberPlugin;
 
 @interface LNXcodeSupport () <LNRegistration, LNConnectionDelegate>
 
@@ -31,6 +32,8 @@ LNXcodeSupport *lineNumberPlugin;
 @property NSRange undoRange;
 @property NSString *undoText;
 
+@property NSMutableDictionary<NSString *,void (^)()> *onupdate;
+
 @end
 
 @implementation LNXcodeSupport
@@ -43,6 +46,7 @@ LNXcodeSupport *lineNumberPlugin;
         dispatch_once(&onceToken, ^{
             LNXcodeSupport *plugin = lineNumberPlugin = [[self alloc] init];
             plugin.extensions = [NSMutableArray new];
+            plugin.onupdate = [NSMutableDictionary new];
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
@@ -97,13 +101,16 @@ LNXcodeSupport *lineNumberPlugin;
                                    class_getInstanceMethod(aClass, altMethod));
 }
 
-- (void)registerLineNumberService:(NSString *)serviceName {
+- (oneway void)registerLineNumberService:(NSString *)serviceName {
     [self deregisterService:serviceName];
     NSLog(@"Registering %@ ...", serviceName);
     [self.extensions addObject:[[LNExtensionClientDO alloc] initServiceName:serviceName delegate:self]];
 }
 
-- (void)deregisterService:(NSString *_Nonnull)serviceName {
+- (oneway void)ping {
+}
+
+- (oneway void)deregisterService:(NSString *_Nonnull)serviceName {
     for (LNExtensionClient *extension in self.extensions) {
         if ([extension.serviceName isEqualToString:serviceName]) {
             [self.extensions removeObject:extension];
@@ -113,10 +120,12 @@ LNXcodeSupport *lineNumberPlugin;
 }
 
 - (void)updateHighlights:(NSData *)json error:(NSError *)error forFile:(NSString *)filepath {
-    if (error)
-        dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (error)
             [[NSAlert alertWithError:error] runModal];
-        });
+        else if (auto update = self.onupdate[filepath])
+            update();
+    });
 }
 
 - (void)updateLinenumberHighlightsForFile:(NSString *)filepath {
@@ -165,6 +174,11 @@ LNXcodeSupport *lineNumberPlugin;
     }
 }
 
+- (void)recursiveSetNeedsDisplay {
+    [self setNeedsDisplay:YES];
+    [self.superview recursiveSetNeedsDisplay];
+}
+
 @end
 
 @implementation NSString (LineNumber)
@@ -204,108 +218,112 @@ LNXcodeSupport *lineNumberPlugin;
 
     NSString *filepath = [self editedDocPath];
     [self initialOrOccaisionalLineNumberUpdate:filepath];
+    (lineNumberPlugin.onupdate[filepath] = ^{
 
-    static NSMutableDictionary<NSString *, NSNumber *> *lineCountCache;
-    if (!lineCountCache)
-        lineCountCache = [NSMutableDictionary new];
+        static NSMutableDictionary<NSString *, NSNumber *> *lineCountCache;
+        if (!lineCountCache)
+            lineCountCache = [NSMutableDictionary new];
 
-    NSInteger lines = lineCountCache[filepath].intValue;
-    if (!lines)
-        lineCountCache[filepath] = @(lines = [[NSString stringWithContentsOfFile:filepath
-                                                                        encoding:NSUTF8StringEncoding error:NULL]
-                                              lnLineCount] ?: 1);
-    NSLog(@"%@ %@", self, filepath);
+        NSInteger lines = lineCountCache[filepath].intValue;
+        if (!lines)
+            lineCountCache[filepath] = @(lines = [[NSString stringWithContentsOfFile:filepath
+                                                                            encoding:NSUTF8StringEncoding error:NULL]
+                                                  lnLineCount] ?: 1);
+        NSLog(@"%@ %@", self, filepath);
 
-    CGFloat lineHeight = 16.; //[sourceTextView lineHeight];
-    CGFloat scale = lines * lineHeight < NSHeight(self.frame) ? lineHeight : NSHeight(self.frame) / lines;
+        CGFloat lineHeight = 16.; //[sourceTextView lineHeight];
+        CGFloat scale = lines * lineHeight < NSHeight(self.frame) ? lineHeight : NSHeight(self.frame) / lines;
 
-    static Class markerListClass;
-    if (!markerListClass) {
-        markerListClass = objc_allocateClassPair(NSClassFromString(@"_DVTMarkerList"), "ln_DVTMarkerList", 0);
-        class_addMethod(markerListClass, @selector(_recomputeMarkRects), imp_implementationWithBlock(^{}), "v16@0:8");
-        objc_registerClassPair(markerListClass);
-    }
-
-    _DVTMarkerList *markers = [[markerListClass alloc] initWithSlotRect:rect];
-    NSMutableArray *marks = [NSMutableArray new];
-    [markers setValue:marks forKey:@"_marks"];
-    NSMutableArray *markRects = [NSMutableArray new];
-    [markers setValue:markRects forKey:@"_markRects"];
-
-    for (LNExtensionClient *extension in lineNumberPlugin.extensions.reverseObjectEnumerator) {
-        if (LNFileHighlights *diffs = extension[filepath]) {
-            [diffs foreachHighlightRange:^(NSRange range, LNHighlightElement *element) {
-                NSRect rect = NSMakeRect(5., (range.location - 1) * scale, 2., MAX(range.length * scale, 2.));
-                [marks addObject:@((range.location - 1.) / lines)];
-                [markRects addObject:[NSValue valueWithBytes:&rect objCType:@encode(NSRect)]];
-            }];
+        static Class markerListClass;
+        if (!markerListClass) {
+            markerListClass = objc_allocateClassPair(NSClassFromString(@"_DVTMarkerList"), "ln_DVTMarkerList", 0);
+            class_addMethod(markerListClass, @selector(_recomputeMarkRects), imp_implementationWithBlock(^{}), "v16@0:8");
+            objc_registerClassPair(markerListClass);
         }
-    }
 
-    [self setValue:markers forKey:@"_diffMarks"];
+        _DVTMarkerList *markers = [[markerListClass alloc] initWithSlotRect:rect];
+        NSMutableArray *marks = [NSMutableArray new];
+        [markers setValue:marks forKey:@"_marks"];
+        NSMutableArray *markRects = [NSMutableArray new];
+        [markers setValue:markRects forKey:@"_markRects"];
 
-    NSView *floatingContainer = self.superview.subviews[1];
-    NSArray *floating = [floatingContainer subviews];
-    LNHighlightGutter *highlightGutter = [floating lastObject];
-    SourceEditorGutterMarginContentView *lineNumberGutter;
-
-    if (![highlightGutter isKindOfClass:[LNHighlightGutter class]]) {
-        lineNumberGutter = [floating lastObject];
-        NSRect rect = lineNumberGutter.frame;
-        rect.origin.y = 0.;
-        rect.origin.x += rect.size.width - 3.;
-        rect.size.width = 8.;
-        rect.size.height += 5000.;
-        highlightGutter = [[LNHighlightGutter alloc] initWithFrame:rect];
-        [floatingContainer addSubview:highlightGutter];
-    } else
-        lineNumberGutter = [floating objectAtIndex:floating.count - 2];
-
-    NSLog(@">>>>>>>>>>> %@ %@ %@", highlightGutter, NSStringFromRect(highlightGutter.frame), lineNumberGutter);
-    NSMutableArray<LNHighlightFleck *> *next = [NSMutableArray new];
-
-    NSDictionary *lineNumberLayers = [lineNumberGutter lineNumberLayers];
-    for (NSNumber *line in lineNumberLayers) {
-        SourceEditorFontSmoothingTextLayer *layer = lineNumberLayers[line];
-        NSRect rect = layer.frame;
-        rect.origin.x = highlightGutter.frame.size.width - 4.;
-        rect.origin.y = highlightGutter.frame.size.height - lineNumberGutter.frame.origin.y - rect.origin.y - 13.;
-        rect.size.width = 6.;
-        rect.size.height += 5.;
-        for (LNExtensionClient *extension in lineNumberPlugin.extensions.reverseObjectEnumerator) {
+        for (LNExtensionClient *extension in lineNumberPlugin.extensions) {
             if (LNFileHighlights *diffs = extension[filepath]) {
-                if (LNHighlightElement *element = diffs[line.integerValue + 1]) {
-                    rect.origin.x -= 2.;
-                    LNHighlightFleck *fleck = [LNHighlightFleck fleck];
-                    fleck.frame = rect;
-                    fleck.element = element;
-                    fleck.extension = extension;
-                    fleck.yoffset = [lineNumberLayers[@(element.start - 1)] frame].origin.y;
-                    [next addObject:fleck];
+                [diffs foreachHighlightRange:^(NSRange range, LNHighlightElement *element) {
+                    NSRect rect = NSMakeRect(5., (range.location - 1) * scale, 2., MAX(range.length * scale, 2.));
+                    [marks addObject:@((range.location - 1.) / lines)];
+                    [markRects addObject:[NSValue valueWithBytes:&rect objCType:@encode(NSRect)]];
+                }];
+            }
+        }
+
+        [self setValue:markers forKey:@"_diffMarks"];
+
+        NSView *floatingContainer = self.superview.subviews[1];
+        NSArray *floating = floatingContainer.subviews;
+        LNHighlightGutter *highlightGutter = floating.lastObject;
+        SourceEditorGutterMarginContentView *lineNumberGutter;
+
+        if (![highlightGutter isKindOfClass:[LNHighlightGutter class]]) {
+            lineNumberGutter = floating.lastObject;
+            NSRect rect = lineNumberGutter.frame;
+            rect.origin.y = 0.;
+            rect.origin.x += rect.size.width - 3.;
+            rect.size.width = 8.;
+            rect.size.height += 5000.;
+            highlightGutter = [[LNHighlightGutter alloc] initWithFrame:rect];
+            [floatingContainer addSubview:highlightGutter];
+        } else
+            lineNumberGutter = [floating objectAtIndex:floating.count - 2];
+
+        NSLog(@">>>>>>>>>>> %@ %@ %@", highlightGutter, NSStringFromRect(highlightGutter.frame), lineNumberGutter);
+        NSMutableArray<LNHighlightFleck *> *next = [NSMutableArray new];
+
+        NSDictionary *lineNumberLayers = [lineNumberGutter lineNumberLayers];
+        for (NSNumber *line in lineNumberLayers) {
+            SourceEditorFontSmoothingTextLayer *layer = lineNumberLayers[line];
+            NSRect rect = layer.frame;
+            rect.origin.x = highlightGutter.frame.size.width - 4.;
+            rect.origin.y = highlightGutter.frame.size.height - lineNumberGutter.frame.origin.y - rect.origin.y - 13.;
+            rect.size.width = 6.;
+            rect.size.height += 5.;
+            for (LNExtensionClient *extension in lineNumberPlugin.extensions.reverseObjectEnumerator) {
+                if (LNFileHighlights *diffs = extension[filepath]) {
+                    if (LNHighlightElement *element = diffs[line.integerValue + 1]) {
+                        rect.origin.x -= 2.;
+                        LNHighlightFleck *fleck = [LNHighlightFleck fleck];
+                        fleck.frame = rect;
+                        fleck.element = element;
+                        fleck.extension = extension;
+                        fleck.yoffset = [lineNumberLayers[@(element.start - 1)] frame].origin.y;
+                        [next addObject:fleck];
+                    }
                 }
             }
         }
-    }
 
-    if (![[highlightGutter subviews] isEqualToArray:next]) {
-        [[[highlightGutter subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        for (LNHighlightFleck *fleck in next)
-            [highlightGutter addSubview:fleck];
-    } else
-        [LNHighlightFleck recycle:next];
+        if (![[highlightGutter subviews] isEqualToArray:next]) {
+            [[[highlightGutter subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+            for (LNHighlightFleck *fleck in next)
+                [highlightGutter addSubview:fleck];
+            NSLog(@"HERE2");
+        } else
+            [LNHighlightFleck recycle:next];
 
-    //    [highlightGutter setNeedsDisplay:YES];
+        [highlightGutter recursiveSetNeedsDisplay];
+    })();
 }
 
 @end
 
-@implementation LNXcodeSupport (MouseOver)
+@implementation LNHighlightFleck (LNXcodeSupport)
 
-- (void)mouseEntered:(LNHighlightFleck *)fleck {
-    if (![fleck.element attributedText])
+- (void)mouseEntered:(NSEvent *)theEvent {
+    if (!self.element.text)
         return;
+    NSLog(@"Mouse entered %@", self);
 //    NSUInteger start = fleck.element.start;
-    NSMutableAttributedString *attString = [[fleck.element attributedText] mutableCopy];
+    NSMutableAttributedString *attString = [[self.element attributedText] mutableCopy];
     NSString *undoText = [attString.string copy];
 
     // https://panupan.com/2012/06/04/trim-leading-and-trailing-whitespaces-from-nsmutableattributedstring/
@@ -324,7 +342,7 @@ LNXcodeSupport *lineNumberPlugin;
     NSTextView *popover = lineNumberPlugin.popover;
     [[popover textStorage] setAttributedString:attString];
 
-    NSView *editScroller = fleck.superview.superview.superview;
+    NSView *editScroller = self.superview.superview.superview;
     NSTextView *sourceTextView = editScroller.subviews[0].subviews[0];
     popover.font = [KeyPath objectFor:@"layoutManager.fontTheme.plainTextFont" from:sourceTextView];
 
@@ -332,57 +350,60 @@ LNXcodeSupport *lineNumberPlugin;
     CGFloat lineHeight = 16.; //[sourceTextView lineHeight];
     CGFloat height = lineHeight * [popover.string lnLineCount];
 
-    popover.frame = NSMakeRect(33., fleck.yoffset - 1., width, height);
+    popover.frame = NSMakeRect(33., self.yoffset - 1., width, height);
 
     NSLog(@"%@ %f %f - %@ >%@< %@", NSStringFromRect(popover.frame),
-          lineHeight, height, fleck.element.range, fleck.element.text, sourceTextView);
-    NSString *popoverColor = fleck.extension.config[LNPopoverColorKey] ?: @"1 0.914 0.662 1";
+          lineHeight, height, self.element.range, self.element.text, sourceTextView);
+    NSString *popoverColor = self.extension.config[LNPopoverColorKey] ?: @"1 0.914 0.662 1";
     popover.backgroundColor = [NSColor colorWithString:popoverColor];
     [sourceTextView addSubview:popover];
     [editScroller.superview.superview.superview setNeedsDisplay:YES];
 
-    if (fleck.element.range &&
-        sscanf(fleck.element.range.UTF8String, "%ld %ld", &range.location, &range.length) == 2) {
+    [popover recursiveSetNeedsDisplay];
 
-        self.undoConfig = fleck.extension.config;
-        self.undoText = undoText;
-        self.undoRange = range;
+    if (self.element.range &&
+        sscanf(self.element.range.UTF8String, "%ld %ld", &range.location, &range.length) == 2) {
 
-        [self performSelector:@selector(showUndoButton:) withObject:fleck afterDelay:REVERT_DELAY];
+        lineNumberPlugin.undoConfig = self.extension.config;
+        lineNumberPlugin.undoText = undoText;
+        lineNumberPlugin.undoRange = range;
+
+        [self performSelector:@selector(showUndoButton) withObject:nil afterDelay:REVERT_DELAY];
     }
 }
 
-- (void)mouseExited:(LNHighlightFleck *)fleck {
-    [self.popover removeFromSuperview];
-    [self.undoButton removeFromSuperview];
+- (void)mouseExited:(NSEvent *)theEvent {
+    NSLog(@"Mouse exited %@", self);
+    [lineNumberPlugin.popover removeFromSuperview];
+    [lineNumberPlugin.undoButton removeFromSuperview];
 }
 
-- (void)showUndoButton:(LNHighlightFleck *)fleck {
-    NSLog(@"showUndoButton: %@", self.popover.superview);
-    if (self.popover.superview) {
-        NSButton *undoButton = self.undoButton;
+- (void)showUndoButton {
+    NSLog(@"showUndoButton: %@", lineNumberPlugin.popover.superview);
+    if (lineNumberPlugin.popover.superview) {
+        NSButton *undoButton = lineNumberPlugin.undoButton;
         undoButton.action = @selector(performUndo:);
         undoButton.target = self;
 
-        CGFloat width = fleck.superview.frame.size.width;
-        undoButton.frame = NSMakeRect(0, fleck.frame.origin.y + 8., width, width);
+        CGFloat width = self.superview.frame.size.width;
+        undoButton.frame = NSMakeRect(0, self.frame.origin.y + 8., width, width);
         NSLog(@"showUndoButton: %@", NSStringFromRect(undoButton.frame));
-        [fleck.superview addSubview:undoButton];
+        [self.superview addSubview:undoButton];
     }
 }
 
 - (void)performUndo:(NSButton *)sender {
     SourceEditorContentView *editor = sender.superview.superview.superview.subviews[0].subviews[0];
     NSString *buffer = editor.accessibilityValue;
-    NSRange safeRange = NSMakeRange(self.undoRange.location - 1,
-                                    MAX(self.undoRange.length, 1)), range;
+    NSRange safeRange = NSMakeRange(lineNumberPlugin.undoRange.location - 1,
+                                    MAX(lineNumberPlugin.undoRange.length, 1)), range;
     range.location = [buffer indexForLine:safeRange.location];
     range.length = [buffer indexForLine:safeRange.location + safeRange.length] - range.location;
     NSLog(@"performUndo: %@", [buffer substringWithRange:range]);
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    LNConfig config = self.undoConfig;
+    LNConfig config = lineNumberPlugin.undoConfig;
     if ([[NSAlert alertWithMessageText:config[LNApplyTitleKey] ?: @"Line Number Plugin:"
                          defaultButton:config[LNApplyConfirmKey] ?: @"Modify"
                        alternateButton:@"Cancel"
@@ -394,7 +415,7 @@ LNXcodeSupport *lineNumberPlugin;
 #pragma clang diagnostic pop
 
     [editor setAccessibilitySelectedTextRange:range];
-    [editor setAccessibilitySelectedText:self.undoText];
+    [editor setAccessibilitySelectedText:lineNumberPlugin.undoText];
 }
 
 @end

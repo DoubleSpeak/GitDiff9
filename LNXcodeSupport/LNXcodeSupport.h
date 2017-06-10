@@ -7,14 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "LNHighlightGutter.h"
 
 @interface LNXcodeSupport : NSObject
 @end
-
-@interface LNXcodeSupport (MouseOver)
-- (void)mouseEntered:(LNHighlightFleck *)fleck;
-- (void)mouseExited:(LNHighlightFleck *)fleck;
-@end
-
-extern LNXcodeSupport *lineNumberPlugin;

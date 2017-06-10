@@ -9,19 +9,19 @@
 #import <Cocoa/Cocoa.h>
 
 @interface DVTTextDocumentLocation : NSObject
-@property (readonly) NSRange characterRange;
-@property (readonly) NSRange lineRange;
+@property(readonly) NSRange characterRange;
+@property(readonly) NSRange lineRange;
 - (id)initWithDocumentURL:(id)a0 timestamp:(id)a1 lineRange:(NSRange)a2;
 @end
 
 @interface IDESourceCodeComparisonEditor : NSObject
-@property (readonly) NSTextView *keyTextView;
+@property(readonly) NSTextView *keyTextView;
 @end
 
 @interface IDESourceCodeEditor : NSObject <NSTextViewDelegate>
 
-@property (retain) NSDocument *document; // T@"IDEEditorDocument",&,V_document
-@property (retain) NSTextView *textView;
+@property(retain) NSDocument *document; // T@"IDEEditorDocument",&,V_document
+@property(retain) NSTextView *textView;
 
 - (long)_currentOneBasedLineNubmer;
 - (long)_currentOneBasedLineNumber;
@@ -43,11 +43,26 @@
 - (id)editorArea;
 @end
 
-@interface  NSRulerView(DVTTextSidebarView)
+@interface NSRulerView (DVTTextSidebarView)
 - (void)getParagraphRect:(CGRect *)a0 firstLineRect:(CGRect *)a1 forLineNumber:(NSUInteger)a2;
 - (NSUInteger)lineNumberForPoint:(CGPoint)a0;
 - (double)sidebarWidth;
 @end
+
+@interface _DVTMarkerList : NSObject
+- (void)setMarkRect:(CGRect)a0;
+- (CGRect)_rectForMark:(double)a0;
+- (void)_mergeMarkRect:(CGRect)a0;
+- (void)_recomputeMarkRects;
+- (id)initWithSlotRect:(CGRect)a0;
+- (CGRect)markRect;
+- (void)clearMarks;
+- (CGRect)addMark:(double)a0;
+- (unsigned long)numMarkRects;
+- (id)markRectList;
+@end
+
+// Xcode 9 Swift classes
 
 @interface SourceCodeEditor : NSViewController
 - (NSFont *)lineNumberFont;
@@ -61,24 +76,9 @@
 @interface SourceEditorContentView : NSTextView
 @end
 
-@interface _DVTMarkerList : NSObject
-- (void)setMarkRect:(CGRect)a0 ;
-- (CGRect)_rectForMark:(double)a0 ;
-- (void)_mergeMarkRect:(CGRect)a0 ;
-- (void)_recomputeMarkRects ;
-- (id)initWithSlotRect:(CGRect)a0 ;
-- (CGRect)markRect ;
-- (void)clearMarks ;
-- (CGRect)addMark:(double)a0 ;
-- (unsigned long)numMarkRects ;
-- (id)markRectList ;
-@end
-
 @interface SourceEditorFontSmoothingTextLayer : CALayer
 @end
 
 @interface SourceEditorGutterMarginContentView : NSView
 - (NSDictionary<NSNumber *, SourceEditorFontSmoothingTextLayer *> *)lineNumberLayers;
 @end
-
-

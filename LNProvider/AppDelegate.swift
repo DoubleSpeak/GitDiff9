@@ -46,12 +46,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.isEnabled = true
         statusItem.title = ""
         setMenuIcon(tiffName: "icon_16x16")
-        //window.backgroundColor = NSColor.darkGray
+        // window.backgroundColor = NSColor.darkGray
     }
 
-    func setMenuIcon( tiffName: String ) {
-        if let path = Bundle.main.path(forResource: tiffName, ofType:"tiff" ) {
-            statusItem.image = NSImage( contentsOfFile:path )
+    func setMenuIcon(tiffName: String) {
+        if let path = Bundle.main.path(forResource: tiffName, ofType: "tiff") {
+            statusItem.image = NSImage(contentsOfFile: path)
             statusItem.alternateImage = statusItem.image
         }
     }
