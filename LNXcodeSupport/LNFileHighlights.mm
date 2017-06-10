@@ -7,7 +7,7 @@
 //
 
 #import "LNFileHighlights.h"
-#import "NSColor+NSString.h"
+
 #import <map>
 
 // JSON wire format

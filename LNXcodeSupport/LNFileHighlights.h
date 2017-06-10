@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "NSColor+NSString.h"
 
 @interface LNHighlightElement : NSObject
 

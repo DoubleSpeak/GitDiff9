@@ -3,6 +3,5 @@
 //
 
 #import "LNExtensionProtocol.h"
-#import "NSColor+NSString.h"
 
 #define EXTENSION_IMPL_SCRIPT "gitblame"

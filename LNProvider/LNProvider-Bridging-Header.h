@@ -3,5 +3,4 @@
 //
 
 #import "LNExtensionClient.h"
-#import "NSColor+NSString.h"
 

@@ -4,7 +4,6 @@
 
 #import "LNExtensionProtocol.h"
 #import "LNFileHighlights.h"
-#import "NSColor+NSString.h"
 
 #import "DiffMatchPatch.h"
 #import "DMDiff.h"

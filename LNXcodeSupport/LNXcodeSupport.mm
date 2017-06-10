@@ -10,7 +10,6 @@
 #import "LNXcodeSupport-Swift.h"
 #import "LNExtensionClientDO.h"
 #import "LNHighlightGutter.h"
-#import "NSColor+NSString.h"
 
 #import "XcodePrivate.h"
 #import <objc/runtime.h>
@@ -172,20 +171,11 @@ static LNXcodeSupport *lineNumberPlugin;
 
 @end
 
-@implementation NSView (LineNumber)
-
-- (void)recursiveSetNeedsDisplay {
-    [self setNeedsDisplay:YES];
-    [self.superview recursiveSetNeedsDisplay];
-}
-
-@end
-
 @implementation NSString (LineNumber)
 
 // https://stackoverflow.com/questions/1085524/how-to-count-the-number-of-lines-in-an-objective-c-string-nsstring
 
-- (NSUInteger)lnLineCount {
+- (NSUInteger)numberOfLines {
     NSUInteger numberOfLines, index, stringLength = [self length];
 
     for (index = 0, numberOfLines = 0; index < stringLength; numberOfLines++)
@@ -257,8 +247,8 @@ static LNXcodeSupport *lineNumberPlugin;
     for (NSNumber *line in lineNumberLayers) {
         SourceEditorFontSmoothingTextLayer *layer = lineNumberLayers[line];
         NSRect rect = layer.frame;
-        rect.origin.x = highlightGutter.frame.size.width - 4.;
-        rect.origin.y = highlightGutter.frame.size.height - lineNumberGutter.frame.origin.y - rect.origin.y - 13.;
+        rect.origin.x = NSWidth(highlightGutter.frame) - 4.;
+        rect.origin.y = NSHeight(highlightGutter.frame) - lineNumberGutter.frame.origin.y - rect.origin.y - 13.;
         rect.size.width = 6.;
         rect.size.height += 5.;
         for (LNExtensionClient *extension in lineNumberPlugin.extensions.reverseObjectEnumerator) {
@@ -280,7 +270,7 @@ static LNXcodeSupport *lineNumberPlugin;
         [[[highlightGutter subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperview)];
         for (LNHighlightFleck *fleck in next)
             [highlightGutter addSubview:fleck];
-        NSLog(@"HERE2");
+        NSLog(@"REFRESH");
     } else
         [LNHighlightFleck recycle:next];
 }
@@ -305,7 +295,7 @@ static LNXcodeSupport *lineNumberPlugin;
     SourceEditorContentView *editor = self.superview.subviews[0].subviews[0];
     NSInteger lines = lineCountCache[filepath].intValue;
     if (!lines)
-        lineCountCache[filepath] = @(lines = [editor.accessibilityValue lnLineCount] ?: 1);
+        lineCountCache[filepath] = @(lines = [editor.accessibilityValue numberOfLines] ?: 1);
 
     CGFloat lineHeight = [editor defaultLineHeight];
     CGFloat scale = lines * lineHeight < NSHeight(self.frame) ? lineHeight : NSHeight(self.frame) / lines;
@@ -352,20 +342,18 @@ static LNXcodeSupport *lineNumberPlugin;
     SourceEditorContentView *sourceTextView = editScroller.subviews[0].subviews[0];
     CGFloat lineHeight = [sourceTextView defaultLineHeight];
 
-    [lineNumberPlugin.popover removeFromSuperview];
-    lineNumberPlugin.popover = [[NSTextView alloc] initWithFrame:NSZeroRect];
-    NSTextView *popover = lineNumberPlugin.popover;
-
     NSMutableParagraphStyle *myStyle = [NSMutableParagraphStyle new];
     [myStyle setMinimumLineHeight:lineHeight];
-    [popover setDefaultParagraphStyle:myStyle];
     [attString setAttributes:@{NSParagraphStyleAttributeName: myStyle} range:NSMakeRange(0, attString.length)];
 
+    [lineNumberPlugin.popover removeFromSuperview];
+    NSTextView *popover = lineNumberPlugin.popover = [[NSTextView alloc] initWithFrame:NSZeroRect];
+    
     [[popover textStorage] setAttributedString:attString];
     popover.font = [KeyPath objectFor:@"layoutManager.fontTheme.plainTextFont" from:sourceTextView];
 
     CGFloat width = NSWidth(sourceTextView.frame);
-    CGFloat height = lineHeight * [popover.string lnLineCount];
+    CGFloat height = lineHeight * [popover.string numberOfLines];
 
     popover.frame = NSMakeRect(33., self.yoffset - 3., width, height);
 
@@ -399,8 +387,8 @@ static LNXcodeSupport *lineNumberPlugin;
         undoButton.action = @selector(performUndo:);
         undoButton.target = self;
 
-        CGFloat width = self.superview.frame.size.width;
-        undoButton.frame = NSMakeRect(0, self.frame.origin.y + 8., width, width);
+        CGFloat width = NSWidth(self.superview.frame);
+        undoButton.frame = NSMakeRect(0, self.frame.origin.y + width, width, width);
         NSLog(@"showUndoButton: %@", NSStringFromRect(undoButton.frame));
         [self.superview addSubview:undoButton];
     }

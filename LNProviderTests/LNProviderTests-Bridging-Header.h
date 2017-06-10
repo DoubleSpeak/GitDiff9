@@ -3,7 +3,6 @@
 //
 
 #import "LNExtensionClient.h"
-#import "NSColor+NSString.h"
 
 #import "DiffMatchPatch.h"
 #import "DMDiff.h"
