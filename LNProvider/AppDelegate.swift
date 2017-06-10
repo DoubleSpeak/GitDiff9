@@ -46,7 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.isEnabled = true
         statusItem.title = ""
         setMenuIcon(tiffName: "icon_16x16")
-        window.appearance = NSAppearance(named:NSAppearanceNameVibrantDark);
+        window.appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
     }
 
     func setMenuIcon(tiffName: String) {

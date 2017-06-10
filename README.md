@@ -12,8 +12,10 @@ To use, clone this project and build targte LNXcodeSupport. You'll need to unsig
 
 ![Icon](http://johnholdsworth.com/gitdiff9.png)
 
-Lines that have been changed are highlighted in amber, new lines highighted in blue. Code lint suggestions are highlighted in dark blue and lines with a recent commit (the last 7 days by default) are highlighted in light green, fading with time. If you would like to revert the code change or apply the lint suggestion, hover over the highlight until a button appears and press it. See the document "LineNumberPlugin.pages" for details about the XPC based architecture.
+Lines that have been changed relative to the repo are highlighted in amber, new lines highighted in blue. Code lint suggestions are highlighted in dark blue and lines with a recent commit (the last 7 days by default) are highlighted in light green, fading with time. Hovering over a chnage or lint highlight will overlay he previous or suggested version over the source edior and if you would like to revert the code change or apply a lint suggestion, hover over the highlight until a small button appears and press it.
 
 ### Expandability
 
-The new implementation has been generalised to provide line number highlighting as a service from inside the new Xcode plugin. The project includes an menubar app "LNProvider" which is run to provide the default implementations out of process using XPC. Any application can register with the plugin to provide line number highlights if it follow the distributed objects protocol documented in LNExtensionProtocol.h. Whenever a file is saved or reloaded a call is made to your application's client to the plugin to provide JSON describing the intended highlights.
+The new implementation has been generalised to provide line number highlighting as a service from inside the new Legacy Xcode plugin. The project includes an menubar app "LNProvider" which is run to provide the default implementations out of process using XPC. Any application can register with the plugin to provide line number highlights if it follow the Distributed Objects protocol documented in LNExtensionProtocol.h. Whenever a file is saved or reloaded a call is made by the plugin to your application to provide JSON describing the intended highlights. See the document "LineNumberPlugin.pages" for details about the XPC based architecture.
+
+![Icon](http://johnholdsworth.com/lnprovider.png)

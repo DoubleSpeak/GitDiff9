@@ -348,14 +348,14 @@ static LNXcodeSupport *lineNumberPlugin;
 
     [lineNumberPlugin.popover removeFromSuperview];
     NSTextView *popover = lineNumberPlugin.popover = [[NSTextView alloc] initWithFrame:NSZeroRect];
-    
+
     [[popover textStorage] setAttributedString:attString];
     popover.font = [KeyPath objectFor:@"layoutManager.fontTheme.plainTextFont" from:sourceTextView];
 
     CGFloat width = NSWidth(sourceTextView.frame);
     CGFloat height = lineHeight * [popover.string numberOfLines];
 
-    popover.frame = NSMakeRect(33., self.yoffset - 3., width, height);
+    popover.frame = NSMakeRect(33., self.yoffset - 4., width, height);
 
     NSLog(@"%@ %f %f - %@ >%@< %@", NSStringFromRect(popover.frame),
           lineHeight, height, self.element.range, undoText, sourceTextView);
