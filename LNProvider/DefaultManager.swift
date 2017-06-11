@@ -33,7 +33,7 @@ open class DefaultManager: NSObject {
     open var formatKey:   String { return "FormatColor" }
     open var unusedKey:   String { return "UnusedColor" }
 
-    open var showHeadKey: String {  return "ShowHead" }
+    open var showHeadKey: String { return "ShowHead" }
     open var recentDaysKey: String { return "RecentDays" }
     open var formatIndentKey: String { return "FormatIndent" }
 

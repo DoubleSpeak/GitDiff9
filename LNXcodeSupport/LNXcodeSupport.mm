@@ -68,15 +68,11 @@ static LNXcodeSupport *lineNumberPlugin;
                 plugin.sourceDocClass = NSClassFromString(@"IDEEditorDocument"); //IDESourceCodeDocument");
                 plugin.scrollerClass = NSClassFromString(@"SourceEditorScrollView");
 
-                plugin.popover = [[NSTextView alloc] initWithFrame:NSZeroRect];
-                NSMutableParagraphStyle *myStyle = [NSMutableParagraphStyle new];
-                [myStyle setLineSpacing:5.0];
-                [plugin.popover setDefaultParagraphStyle:myStyle];
-
                 plugin.undoButton = [[NSButton alloc] initWithFrame:NSZeroRect];
                 plugin.undoButton.bordered = FALSE;
 
-                NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:@"undo" ofType:@"png"];
+                NSBundle *pluginBundle = [NSBundle bundleForClass:self];
+                NSString *path = [pluginBundle pathForResource:@"undo" ofType:@"png"];
                 plugin.undoButton.image = [[NSImage alloc] initWithContentsOfFile:path];
                 plugin.undoButton.imageScaling = NSImageScaleProportionallyDown;
 
@@ -85,7 +81,7 @@ static LNXcodeSupport *lineNumberPlugin;
                     [registrationDO setRootObject:plugin];
                     [registrationDO registerName:XCODE_LINE_NUMBER_REGISTRATION];
 
-                    NSURL *appURL = [[NSBundle bundleForClass:self] URLForResource:@"LNProvider" withExtension:@"app"];
+                    NSURL *appURL = [pluginBundle URLForResource:@"LNProvider" withExtension:@"app"];
                     [[NSWorkspace sharedWorkspace] openURL:appURL];
 
                     [[NSRunLoop currentRunLoop] run];
@@ -276,29 +272,18 @@ static LNXcodeSupport *lineNumberPlugin;
 }
 
 - (void)updateScrollbarMarkersFor:(NSString *)filepath in:(NSRect)rect {
-    static Class markerListClass;
-    if (!markerListClass) {
-        markerListClass = objc_allocateClassPair(NSClassFromString(@"_DVTMarkerList"), "ln_DVTMarkerList", 0);
-        class_addMethod(markerListClass, @selector(_recomputeMarkRects), imp_implementationWithBlock(^{}), "v16@0:8");
-        objc_registerClassPair(markerListClass);
-    }
-
-    _DVTMarkerList *markers = [[markerListClass alloc] initWithSlotRect:rect];
-    NSMutableArray *marks = [NSMutableArray new], *markRects = [NSMutableArray new];
-    [markers setValue:marks forKey:@"_marks"];
-    [markers setValue:markRects forKey:@"_markRects"];
-
     static NSMutableDictionary<NSString *, NSNumber *> *lineCountCache;
     if (!lineCountCache)
         lineCountCache = [NSMutableDictionary new];
 
-    SourceEditorContentView *editor = self.superview.subviews[0].subviews[0];
+    SourceEditorContentView *sourceTextView = self.superview.subviews[0].subviews[0];
     NSInteger lines = lineCountCache[filepath].intValue;
     if (!lines)
-        lineCountCache[filepath] = @(lines = [editor.accessibilityValue numberOfLines] ?: 1);
+        lineCountCache[filepath] = @(lines = [sourceTextView.accessibilityValue numberOfLines] ?: 1);
 
-    CGFloat lineHeight = [editor defaultLineHeight];
+    CGFloat lineHeight = [sourceTextView defaultLineHeight];
     CGFloat scale = lines * lineHeight < NSHeight(self.frame) ? lineHeight : NSHeight(self.frame) / lines;
+    NSMutableArray *marks = [NSMutableArray new], *markRects = [NSMutableArray new];
 
     for (LNExtensionClient *extension in lineNumberPlugin.extensions) {
         if (LNFileHighlights *diffs = extension[filepath]) {
@@ -310,12 +295,26 @@ static LNXcodeSupport *lineNumberPlugin;
         }
     }
 
+    static Class markerListClass;
+    if (!markerListClass) {
+        markerListClass = objc_allocateClassPair(NSClassFromString(@"_DVTMarkerList"), "ln_DVTMarkerList", 0);
+        class_addMethod(markerListClass, @selector(_recomputeMarkRects), imp_implementationWithBlock(^{}), "v16@0:8");
+        objc_registerClassPair(markerListClass);
+    }
+
+    _DVTMarkerList *markers = [[markerListClass alloc] initWithSlotRect:rect];
+    [markers setValue:marks forKey:@"_marks"];
+    [markers setValue:markRects forKey:@"_markRects"];
     [self setValue:markers forKey:@"_diffMarks"];
 }
 
 @end
 
 @implementation LNHighlightFleck (LNXcodeSupport)
+
+- (SourceEditorContentView *)editorContentView {
+    return self.superview.superview.superview.subviews[0].subviews[0];
+}
 
 - (void)mouseEntered:(NSEvent *)theEvent {
     if (!self.element.text)
@@ -338,16 +337,17 @@ static LNXcodeSupport *lineNumberPlugin;
                                                   options:NSBackwardsSearch];
     }
 
-    NSScrollView *editScroller = (NSScrollView *)self.superview.superview.superview;
-    SourceEditorContentView *sourceTextView = editScroller.subviews[0].subviews[0];
+    SourceEditorContentView *sourceTextView = [self editorContentView];
     CGFloat lineHeight = [sourceTextView defaultLineHeight];
 
     NSMutableParagraphStyle *myStyle = [NSMutableParagraphStyle new];
     [myStyle setMinimumLineHeight:lineHeight];
-    [attString setAttributes:@{NSParagraphStyleAttributeName: myStyle} range:NSMakeRange(0, attString.length)];
+    [attString setAttributes:@{NSParagraphStyleAttributeName: myStyle}
+                       range:NSMakeRange(0, attString.length)];
 
     [lineNumberPlugin.popover removeFromSuperview];
-    NSTextView *popover = lineNumberPlugin.popover = [[NSTextView alloc] initWithFrame:NSZeroRect];
+    NSTextView *popover =
+    lineNumberPlugin.popover = [[NSTextView alloc] initWithFrame:NSZeroRect];
 
     [[popover textStorage] setAttributedString:attString];
     popover.font = [KeyPath objectFor:@"layoutManager.fontTheme.plainTextFont" from:sourceTextView];
@@ -364,7 +364,8 @@ static LNXcodeSupport *lineNumberPlugin;
     [sourceTextView addSubview:popover];
 
     if (self.element.range &&
-        sscanf(self.element.range.UTF8String, "%ld %ld", &range.location, &range.length) == 2) {
+        sscanf(self.element.range.UTF8String, "%ld %ld",
+               &range.location, &range.length) == 2) {
 
         lineNumberPlugin.undoConfig = self.extension.config;
         lineNumberPlugin.undoText = undoText;
@@ -395,8 +396,8 @@ static LNXcodeSupport *lineNumberPlugin;
 }
 
 - (void)performUndo:(NSButton *)sender {
-    SourceEditorContentView *editor = sender.superview.superview.superview.subviews[0].subviews[0];
-    NSString *buffer = editor.accessibilityValue;
+    SourceEditorContentView *sourceTextView = [self editorContentView];
+    NSString *buffer = sourceTextView.accessibilityValue;
     NSRange safeRange = NSMakeRange(lineNumberPlugin.undoRange.location - 1,
                                     MAX(lineNumberPlugin.undoRange.length, 1)), range;
     range.location = [buffer indexForLine:safeRange.location];
@@ -416,8 +417,8 @@ static LNXcodeSupport *lineNumberPlugin;
         return;
 #pragma clang diagnostic pop
 
-    [editor setAccessibilitySelectedTextRange:range];
-    [editor setAccessibilitySelectedText:lineNumberPlugin.undoText];
+    [sourceTextView setAccessibilitySelectedTextRange:range];
+    [sourceTextView setAccessibilitySelectedText:lineNumberPlugin.undoText];
 }
 
 @end

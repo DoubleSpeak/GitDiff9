@@ -10,19 +10,6 @@
 
 @implementation LNHighlightGutter
 
-//- (void)drawRect:(NSRect)dirtyRect {
-//    [super drawRect:dirtyRect];
-//
-//    // Drawing code here.
-//    [[NSColor redColor] setFill];
-//    CGFloat height = dirtyRect.size.height;
-//    dirtyRect.size.height = 20.;
-//    for ( CGFloat y = 0; y< height; y += 40 ) {
-//        dirtyRect.origin.y = y;
-//        NSRectFill(dirtyRect);
-//    }
-//}
-
 @end
 
 @implementation LNHighlightFleck {
