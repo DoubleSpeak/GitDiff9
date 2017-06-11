@@ -694,7 +694,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="308" height="416"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" title="Colors" translatesAutoresizingMaskIntoConstraints="NO" id="ZVI-I2-ZoR">
+                    <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" title="Colors - Save file in Xcode editor to refresh" translatesAutoresizingMaskIntoConstraints="NO" id="ZVI-I2-ZoR">
                         <rect key="frame" x="17" y="121" width="274" height="275"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="3i2-MS-e1P">
@@ -965,6 +965,22 @@ Gw
                             <binding destination="bNo-NB-OMw" name="value" keyPath="values.UnusedCode" id="Prn-zJ-2Q8">
                                 <dictionary key="options">
                                     <integer key="NSNullPlaceholder" value="1"/>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </button>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cjb-xy-W3V">
+                        <rect key="frame" x="182" y="101" width="108" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="(show staged)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="OlO-IE-J6R">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="showHeadChangedWithSender:" target="qiD-Eu-hB1" id="fx2-hS-PiC"/>
+                            <binding destination="bNo-NB-OMw" name="value" keyPath="values.ShowHead" id="b0w-U3-Vu5">
+                                <dictionary key="options">
+                                    <integer key="NSNullPlaceholder" value="0"/>
                                 </dictionary>
                             </binding>
                         </connections>

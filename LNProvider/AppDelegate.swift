@@ -22,14 +22,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var services = [LNExtensionClient]()
     private var statusItem: NSStatusItem!
 
-    var buttonMap: [NSButton: String] {
-        return [
-            formatChecked: "com.johnholdsworth.FormatRelay",
-            gitDiffChecked: "com.johnholdsworth.GitDiffRelay",
-            gitBlameChecked: "com.johnholdsworth.GitBlameRelay",
-            unusedChecked: "com.johnholdsworth.UnusedRelay",
-        ]
-    }
+    lazy var buttonMap: [NSButton: String] = [
+        self.formatChecked: "com.johnholdsworth.FormatRelay",
+        self.gitDiffChecked: "com.johnholdsworth.GitDiffRelay",
+        self.gitBlameChecked: "com.johnholdsworth.GitBlameRelay",
+        self.unusedChecked: "com.johnholdsworth.UnusedRelay",
+    ]
 
     func applicationDidFinishLaunching(_: Notification) {
         // Insert code here to initialize your application

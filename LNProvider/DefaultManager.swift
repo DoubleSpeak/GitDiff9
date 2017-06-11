@@ -1,5 +1,5 @@
 //
-//  DeafultMananger.swift
+//  DefaultManager.swift
 //  LNProvider
 //
 //  Created by John Holdsworth on 03/04/2017.
@@ -33,21 +33,20 @@ open class DefaultManager: NSObject {
     open var formatKey:   String { return "FormatColor" }
     open var unusedKey:   String { return "UnusedColor" }
 
+    open var showHeadKey: String {  return "ShowHead" }
     open var recentDaysKey: String { return "RecentDays" }
     open var formatIndentKey: String { return "FormatIndent" }
 
-    open var wellKeys: [NSColorWell: String] {
-        return [
-            popoverColorWell:  popoverKey,
-            deletedColorWell:  deletedKey,
-            modifiedColorWell: modifiedKey,
-            addedColorWell:    addedKey,
-            extraColorWell:    extraKey,
-            recentColorWell:   recentKey,
-            formatColorWell:   formatKey,
-            unusedColorWell:   unusedKey,
-        ]
-    }
+    lazy open var wellKeys: [NSColorWell: String] = [
+        self.popoverColorWell:  self.popoverKey,
+        self.deletedColorWell:  self.deletedKey,
+        self.modifiedColorWell: self.modifiedKey,
+        self.addedColorWell:    self.addedKey,
+        self.extraColorWell:    self.extraKey,
+        self.recentColorWell:   self.recentKey,
+        self.formatColorWell:   self.formatKey,
+        self.unusedColorWell:   self.unusedKey,
+    ]
 
     open override func awakeFromNib() {
         for (colorWell, key) in wellKeys {
@@ -129,6 +128,14 @@ open class DefaultManager: NSObject {
 
     open var unusedColor: NSColor {
         return defaultColor(for: unusedKey, default: "1 0 0 1")
+    }
+
+    open var showHead: Bool {
+        return defaults.bool(forKey: showHeadKey)
+    }
+
+    @IBAction open func showHeadChanged(sender: NSButton) {
+        defaults.set(sender.state == NSOnState, forKey: showHeadKey)
     }
 
     @IBAction open func recentChanged(sender: NSTextField) {

@@ -66,5 +66,5 @@ open class FormatImpl: LNExtensionBase, LNExtensionService {
             callback(highlights.jsonData(), nil)
         }
     }
-    
+
 }

@@ -949,6 +949,7 @@
 					BB582D981E928FCA00FC1CD7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 9V5A8WE85E;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
@@ -959,13 +960,13 @@
 					BB582DAB1E928FDC00FC1CD7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 9V5A8WE85E;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					BBD03B771E8E09B6001B966D = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 9V5A8WE85E;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.Mac = {
@@ -998,7 +999,7 @@
 					BBD03BCF1E8E10D7001B966D = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 9V5A8WE85E;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
@@ -1009,7 +1010,7 @@
 					BBD03BE21E8E10EC001B966D = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 9V5A8WE85E;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.Mac = {
@@ -1020,7 +1021,7 @@
 					BBD03BF51E8E110A001B966D = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 9V5A8WE85E;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
@@ -1031,13 +1032,13 @@
 					BBD03C081E8E1120001B966D = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 9V5A8WE85E;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					BBF4937B1E96A16B00DB7817 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 9V5A8WE85E;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
@@ -1048,7 +1049,7 @@
 					BBF493921E96A26100DB7817 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 9V5A8WE85E;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};

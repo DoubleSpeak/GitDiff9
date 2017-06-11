@@ -26,8 +26,12 @@ open class GitDiffImpl: LNExtensionBase, LNExtensionService {
     open func requestHighlights(forFile filepath: String, callback: @escaping LNHighlightCallback) {
         DispatchQueue.global().async {
             let url = URL(fileURLWithPath: filepath)
-            let generator = TaskGenerator(launchPath: "/usr/bin/env",
-                                          arguments: ["git", "diff", url.lastPathComponent],
+            var arguments = ["git", "diff", "-b", "--no-ext-diff", "--no-color"]
+            if lineNumberDefaults.showHead {
+                arguments.append("HEAD")
+            }
+            arguments.append(url.lastPathComponent)
+            let generator = TaskGenerator(launchPath: "/usr/bin/env", arguments: arguments,
                                           directory: url.deletingLastPathComponent().path)
 
             for _ in 0 ..< 4 {
