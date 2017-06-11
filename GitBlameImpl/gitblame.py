@@ -22,7 +22,7 @@ def readdefault( key, default ):
                             stdout=subprocess.PIPE).stdout.read()
     return value if value != '' else default
 
-recent = int(readdefault('RecentDays', '7'))*24*60*60
+recent = float(readdefault('RecentDays', '7'))*24*60*60
 decay = recent
 
 color = readdefault('RecentColor', "0.5 1.0 0.5 1")

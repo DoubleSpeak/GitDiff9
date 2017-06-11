@@ -31,7 +31,6 @@ static NSMutableArray<LNHighlightFleck *> *queue;
 }
 
 - (BOOL)isEqual:(LNHighlightFleck *)object {
-//    if (![object isKindOfClass:[self class]]) NSLog( @"%@ %@", self, object );
     return ![object isKindOfClass:[self class]] ? [super isEqual:object] :
         self.element == object.element && NSEqualRects(self.frame, object.frame);
 }
