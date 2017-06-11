@@ -143,7 +143,7 @@ extension String {
     }
 
     public subscript(r: Range<Int>) -> String {
-        return substring(with: characters.index(startIndex, offsetBy: r.lowerBound) ..< characters.index(startIndex, offsetBy: r.upperBound))
+        return String(describing: utf16[UTF16Index(r.lowerBound) ..< UTF16Index(r.upperBound)])
     }
     
 }

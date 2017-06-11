@@ -37,7 +37,7 @@ open class DefaultManager: NSObject {
     open var recentDaysKey: String { return "RecentDays" }
     open var formatIndentKey: String { return "FormatIndent" }
 
-    lazy open var wellKeys: [NSColorWell: String] = [
+    open lazy var wellKeys: [NSColorWell: String] = [
         self.popoverColorWell:  self.popoverKey,
         self.deletedColorWell:  self.deletedKey,
         self.modifiedColorWell: self.modifiedKey,
