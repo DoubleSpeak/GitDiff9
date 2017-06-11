@@ -18,7 +18,7 @@ Lines that have been changed relative to the repo are highlighted in amber, new 
 
 The new implementation has been generalised to provide line number highlighting as a service from inside the new Legacy Xcode plugin. The project includes an menubar app "LNProvider" which is run to provide the default implementations out of process using XPC. Any application can register with the plugin to provide line number highlights if it follow the Distributed Objects protocol documented in LNExtensionProtocol.h. Whenever a file is saved or reloaded a call is made by the plugin to your application to provide JSON describing the intended highlights. See the document "LineNumberPlugin.pages" for details about the XPC based architecture.
 
-![Icon](http://johnholdsworth.com/lnprovider9.png)
+![Icon](http://johnholdsworth.com/lnprovider9b.png)
 
 ### Code linting
 
