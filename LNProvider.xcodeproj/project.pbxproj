@@ -361,7 +361,6 @@
 		BBF4938B1E96A1A400DB7817 /* UnusedRelay-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UnusedRelay-Bridging-Header.h"; sourceTree = "<group>"; };
 		BBF4938E1E96A1D400DB7817 /* UnusedRelay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UnusedRelay.entitlements; sourceTree = "<group>"; };
 		BBF493931E96A26100DB7817 /* UnusedImpl.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = UnusedImpl.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
-		BBF493951E96A26100DB7817 /* UnusedImplProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnusedImplProtocol.h; sourceTree = "<group>"; };
 		BBF4939B1E96A26100DB7817 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BBF493A21E96A28000DB7817 /* UnusedImpl-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UnusedImpl-Bridging-Header.h"; sourceTree = "<group>"; };
 		BBF493A31E96A28000DB7817 /* ByteRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteRegex.swift; sourceTree = "<group>"; };
@@ -704,7 +703,6 @@
 				BBF493A91E96A28000DB7817 /* Utils.h */,
 				BBF493AA1E96A28000DB7817 /* Utils.m */,
 				BBF493AB1E96A28000DB7817 /* Xcode.h */,
-				BBF493951E96A26100DB7817 /* UnusedImplProtocol.h */,
 				BBF4939B1E96A26100DB7817 /* Info.plist */,
 				BBF493A21E96A28000DB7817 /* UnusedImpl-Bridging-Header.h */,
 			);
