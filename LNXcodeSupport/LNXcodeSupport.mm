@@ -266,7 +266,6 @@ static LNXcodeSupport *lineNumberPlugin;
         [[[highlightGutter subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperview)];
         for (LNHighlightFleck *fleck in next)
             [highlightGutter addSubview:fleck];
-        NSLog(@"REFRESH");
     } else
         [LNHighlightFleck recycle:next];
 }
@@ -288,9 +287,10 @@ static LNXcodeSupport *lineNumberPlugin;
     for (LNExtensionClient *extension in lineNumberPlugin.extensions) {
         if (LNFileHighlights *diffs = extension[filepath]) {
             [diffs foreachHighlightRange:^(NSRange range, LNHighlightElement *element) {
-                NSRect rect = NSMakeRect(5., (range.location - 1) * scale, 2., MAX(range.length * scale, 2.));
+                NSRect rect = NSMakeRect(4., (range.location - 1) * scale, 2., MAX(range.length * scale, 2.));
+                typedef struct __attribute__((objc_boxable)) CGRect CGRect;
                 [marks addObject:@((range.location - 1.) / lines)];
-                [markRects addObject:[NSValue valueWithBytes:&rect objCType:@encode(NSRect)]];
+                [markRects addObject:@(rect)];
             }];
         }
     }

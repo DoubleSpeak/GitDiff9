@@ -22,8 +22,6 @@ Hovering over a change or lint highlight will overlay the previous or suggested 
 
 The new implementation has been generalised to provide line number highlighting as a service from inside a new Legacy Xcode plugin. The project includes an menubar app "LNProvider" which is run to provide the default implementations using XPC. Any application can register with the plugin to provide line number highlights if it follows the Distributed Objects messaging protocol documented in "LNExtensionProtocol.h". Whenever a file is saved or reloaded, a call is made from the plugin to your application to provide JSON describing the intended highlights, their colours and any associated text. See the document "LineNumberPlugin.pages" for details about the architecture.
 
-![Icon](http://johnholdsworth.com/lnprovider9b.png)
-
 ### Code linting
 
 This repo includes binary releases of [swiftformat](https://github.com/nicklockwood/SwiftFormat) and [clang-format](https://clang.llvm.org/docs/ClangFormatStyleOptions.html) under their respective licenses. To modify code linting preferences, edit the files swift_format.sh and clang_format.sh in the "FormatImpl" directory and rebuild the plugin.

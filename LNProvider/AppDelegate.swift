@@ -44,6 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.isEnabled = true
         statusItem.title = ""
         setMenuIcon(tiffName: "icon_16x16")
+        NSColorPanel.shared().showsAlpha = true
         window.appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
     }
 
