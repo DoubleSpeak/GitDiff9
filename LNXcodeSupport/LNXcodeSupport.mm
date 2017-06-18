@@ -27,7 +27,6 @@ static LNXcodeSupport *lineNumberPlugin;
 @property NSTextView *popover;
 
 @property NSButton *undoButton;
-@property LNConfig undoConfig;
 @property NSString *undoText;
 @property NSRange undoRange;
 
@@ -53,20 +52,18 @@ static LNXcodeSupport *lineNumberPlugin;
                       exchange:@selector(_finishSavingToURL:ofType:forSaveOperation:changeCount:)
                           with:@selector(ln_finishSavingToURL:ofType:forSaveOperation:changeCount:)];
 
-            Class aClass = NSClassFromString(@"IDEEditorDocument");
-            [self swizzleClass:aClass
+            [self swizzleClass:objc_getClass("IDEEditorDocument")
                       exchange:@selector(closeToRevert)
                           with:@selector(ln_closeToRevert)];
 
-            aClass = NSClassFromString(@"DVTMarkedScroller");
-            [self swizzleClass:aClass
+            [self swizzleClass:objc_getClass("DVTMarkedScroller")
                       exchange:@selector(drawKnobSlotInRect:highlight:)
                           with:@selector(ln_drawKnobSlotInRect:highlight:)];
 #pragma clang diagnostic pop
 
             dispatch_async(dispatch_get_main_queue(), ^{
-                plugin.sourceDocClass = NSClassFromString(@"IDEEditorDocument"); //IDESourceCodeDocument");
-                plugin.scrollerClass = NSClassFromString(@"SourceEditorScrollView");
+                plugin.sourceDocClass = objc_getClass("IDEEditorDocument"); //IDESourceCodeDocument");
+                plugin.scrollerClass = objc_getClass("SourceEditorScrollView");
 
                 plugin.undoButton = [[NSButton alloc] initWithFrame:NSZeroRect];
                 plugin.undoButton.bordered = FALSE;
@@ -134,7 +131,7 @@ static LNXcodeSupport *lineNumberPlugin;
 
 - (void)initialOrOccaisionalLineNumberUpdate:(NSString *)filepath {
     // update if not already in memory or 60 seconds has passed
-    for (LNExtensionClient *extension in lineNumberPlugin.extensions) {
+    for (LNExtensionClient *extension in self.extensions) {
         if (extension[filepath].updated < [NSDate timeIntervalSinceReferenceDate] - REFRESH_INTERVAL) {
             if (!extension[filepath])
                 extension.highightsByFile[filepath] = [[LNFileHighlights alloc] initWithData:nil
@@ -223,12 +220,7 @@ static LNXcodeSupport *lineNumberPlugin;
 
     if (![highlightGutter isKindOfClass:[LNHighlightGutter class]]) {
         lineNumberGutter = floating.lastObject;
-        NSRect rect = lineNumberGutter.frame;
-        rect.origin.y = 0.;
-        rect.origin.x += rect.size.width - 3.;
-        rect.size.width = 8.;
-        rect.size.height += 5000.;
-        highlightGutter = [[LNHighlightGutter alloc] initWithFrame:rect];
+        highlightGutter = [[LNHighlightGutter alloc] initWithFrame:NSZeroRect];
         [floatingContainer addSubview:highlightGutter];
     } else
         lineNumberGutter = [floating objectAtIndex:floating.count - 2];
@@ -237,21 +229,34 @@ static LNXcodeSupport *lineNumberPlugin;
     if (![lineNumberGutter respondsToSelector:@selector(lineNumberLayers)])
         return;
 
+    NSRect rect = lineNumberGutter.frame;
+    rect.origin.y = 0.;
+    rect.origin.x += rect.size.width - 3.;
+    rect.size.width = 8.;
+    rect.size.height += 5000.;
+    if (!NSEqualRects(highlightGutter.frame, rect))
+        highlightGutter.frame = rect;
+
     NSDictionary *lineNumberLayers = [lineNumberGutter lineNumberLayers];
     NSMutableArray<LNHighlightFleck *> *next = [NSMutableArray new];
+    SourceEditorContentView *sourceTextView = self.superview.subviews[0].subviews[0];
+    CGFloat lineHeight = [sourceTextView defaultLineHeight];
 
     for (NSNumber *line in lineNumberLayers) {
         SourceEditorFontSmoothingTextLayer *layer = lineNumberLayers[line];
         NSRect rect = layer.frame;
         rect.origin.x = NSWidth(highlightGutter.frame) - 4.;
-        rect.origin.y = NSHeight(highlightGutter.frame) - lineNumberGutter.frame.origin.y - rect.origin.y - 13.;
+        rect.origin.y = NSHeight(highlightGutter.frame) -
+            lineNumberGutter.frame.origin.y - rect.origin.y - lineHeight + 4.;
         rect.size.width = 6.;
         rect.size.height += 5.;
         for (LNExtensionClient *extension in lineNumberPlugin.extensions.reverseObjectEnumerator) {
             if (LNFileHighlights *diffs = extension[filepath]) {
                 if (LNHighlightElement *element = diffs[line.integerValue + 1]) {
-                    rect.origin.x -= 2.;
                     LNHighlightFleck *fleck = [LNHighlightFleck fleck];
+                    rect.origin.x -= 2.;
+//                    rect.origin.y = NSHeight(highlightGutter.frame) - lineHeight + 3. -
+//                    lineNumberGutter.frame.origin.y - [lineNumberLayers[@(element.start - 1)] frame].origin.y;
                     fleck.frame = rect;
                     fleck.element = element;
                     fleck.extension = extension;
@@ -297,7 +302,7 @@ static LNXcodeSupport *lineNumberPlugin;
 
     static Class markerListClass;
     if (!markerListClass) {
-        markerListClass = objc_allocateClassPair(NSClassFromString(@"_DVTMarkerList"), "ln_DVTMarkerList", 0);
+        markerListClass = objc_allocateClassPair(objc_getClass("_DVTMarkerList"), "ln_DVTMarkerList", 0);
         class_addMethod(markerListClass, @selector(_recomputeMarkRects), imp_implementationWithBlock(^{}), "v16@0:8");
         objc_registerClassPair(markerListClass);
     }
@@ -355,7 +360,7 @@ static LNXcodeSupport *lineNumberPlugin;
     CGFloat width = NSWidth(sourceTextView.frame);
     CGFloat height = lineHeight * [popover.string numberOfLines];
 
-    popover.frame = NSMakeRect(33., self.yoffset - 4., width, height);
+    popover.frame = NSMakeRect(sourceTextView.layoutBounds.origin.x - 5., self.yoffset - 4., width, height);
 
     NSLog(@"%@ %f %f - %@ >%@< %@", NSStringFromRect(popover.frame),
           lineHeight, height, self.element.range, undoText, sourceTextView);
@@ -367,7 +372,6 @@ static LNXcodeSupport *lineNumberPlugin;
         sscanf(self.element.range.UTF8String, "%ld %ld",
                &range.location, &range.length) == 2) {
 
-        lineNumberPlugin.undoConfig = self.extension.config;
         lineNumberPlugin.undoText = undoText;
         lineNumberPlugin.undoRange = range;
 
@@ -406,7 +410,7 @@ static LNXcodeSupport *lineNumberPlugin;
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    LNConfig config = lineNumberPlugin.undoConfig;
+    LNConfig config = self.extension.config;
     if ([[NSAlert alertWithMessageText:config[LNApplyTitleKey] ?: @"Line Number Plugin:"
                          defaultButton:config[LNApplyConfirmKey] ?: @"Modify"
                        alternateButton:@"Cancel"

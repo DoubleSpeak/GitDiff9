@@ -64,7 +64,7 @@
     @try {
         [self.registrationDO ping];
     }
-    @catch(NSException *e) {
+    @catch (NSException *e) {
         NSLog(@"Disconnected %@ %@", self.serviceName, e);
         self.registrationDO = nil;
     }
