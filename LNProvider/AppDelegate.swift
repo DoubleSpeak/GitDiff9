@@ -49,8 +49,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func setMenuIcon(tiffName: String) {
-        if let path = Bundle.main.path(forResource: tiffName, ofType: "tiff") {
-            statusItem.image = NSImage(contentsOfFile: path)
+        if let path = Bundle.main.path(forResource: tiffName, ofType: "tiff"),
+            let image = NSImage(contentsOfFile: path) {
+            image.isTemplate = true
+            statusItem.image = image
             statusItem.alternateImage = statusItem.image
         }
     }

@@ -293,9 +293,8 @@ static LNXcodeSupport *lineNumberPlugin;
         if (LNFileHighlights *diffs = extension[filepath]) {
             [diffs foreachHighlightRange:^(NSRange range, LNHighlightElement *element) {
                 NSRect rect = NSMakeRect(4., (range.location - 1) * scale, 2., MAX(range.length * scale, 2.));
-                typedef struct __attribute__((objc_boxable)) CGRect CGRect;
                 [marks addObject:@((range.location - 1.) / lines)];
-                [markRects addObject:@(rect)];
+                [markRects addObject:[NSValue valueWithRect:rect]];
             }];
         }
     }
