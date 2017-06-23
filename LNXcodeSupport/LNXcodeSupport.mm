@@ -22,15 +22,11 @@ static LNXcodeSupport *lineNumberPlugin;
 @interface LNXcodeSupport () <LNRegistration, LNConnectionDelegate>
 
 @property NSMutableArray<LNExtensionClient *> *extensions;
+@property NSMutableDictionary<NSString *, void (^)()> *onupdate;
 
 @property Class sourceDocClass, scrollerClass;
 @property NSTextView *popover;
-
 @property NSButton *undoButton;
-@property NSString *undoText;
-@property NSRange undoRange;
-
-@property NSMutableDictionary<NSString *, void (^)()> *onupdate;
 
 @end
 
@@ -247,7 +243,7 @@ static LNXcodeSupport *lineNumberPlugin;
         NSRect rect = layer.frame;
         rect.origin.x = NSWidth(highlightGutter.frame) - 4.;
         rect.origin.y = NSHeight(highlightGutter.frame) -
-            lineNumberGutter.frame.origin.y - rect.origin.y - lineHeight + 4.;
+                        lineNumberGutter.frame.origin.y - rect.origin.y - lineHeight + 4.;
         rect.size.width = 6.;
         rect.size.height += 5.;
         for (LNExtensionClient *extension in lineNumberPlugin.extensions.reverseObjectEnumerator) {
@@ -255,8 +251,6 @@ static LNXcodeSupport *lineNumberPlugin;
                 if (LNHighlightElement *element = diffs[line.integerValue + 1]) {
                     LNHighlightFleck *fleck = [LNHighlightFleck fleck];
                     rect.origin.x -= 2.;
-//                    rect.origin.y = NSHeight(highlightGutter.frame) - lineHeight + 3. -
-//                    lineNumberGutter.frame.origin.y - [lineNumberLayers[@(element.start - 1)] frame].origin.y;
                     fleck.frame = rect;
                     fleck.element = element;
                     fleck.extension = extension;
@@ -326,7 +320,6 @@ static LNXcodeSupport *lineNumberPlugin;
     NSLog(@"Mouse entered %@", self);
 //    NSUInteger start = self.element.start;
     NSMutableAttributedString *attString = [[self.element attributedText] mutableCopy];
-    NSString *undoText = [attString.string copy];
 
     // https://panupan.com/2012/06/04/trim-leading-and-trailing-whitespaces-from-nsmutableattributedstring/
 
@@ -346,12 +339,12 @@ static LNXcodeSupport *lineNumberPlugin;
 
     NSMutableParagraphStyle *myStyle = [NSMutableParagraphStyle new];
     [myStyle setMinimumLineHeight:lineHeight];
-    [attString setAttributes:@{NSParagraphStyleAttributeName: myStyle}
+    [attString setAttributes:@{NSParagraphStyleAttributeName : myStyle}
                        range:NSMakeRange(0, attString.length)];
 
     [lineNumberPlugin.popover removeFromSuperview];
     NSTextView *popover =
-    lineNumberPlugin.popover = [[NSTextView alloc] initWithFrame:NSZeroRect];
+        lineNumberPlugin.popover = [[NSTextView alloc] initWithFrame:NSZeroRect];
 
     [[popover textStorage] setAttributedString:attString];
     popover.font = [KeyPath objectFor:@"layoutManager.fontTheme.plainTextFont" from:sourceTextView];
@@ -361,21 +354,14 @@ static LNXcodeSupport *lineNumberPlugin;
 
     popover.frame = NSMakeRect(sourceTextView.layoutBounds.origin.x - 5., self.yoffset - 4., width, height);
 
-    NSLog(@"%@ %f %f - %@ >%@< %@", NSStringFromRect(popover.frame),
-          lineHeight, height, self.element.range, undoText, sourceTextView);
+    NSLog(@"%@ %f %f - %@ %@", NSStringFromRect(popover.frame), lineHeight, height, self.element.range, sourceTextView);
+
     NSString *popoverColor = self.extension.config[LNPopoverColorKey] ?: @"1 0.914 0.662 1";
     popover.backgroundColor = [NSColor colorWithString:popoverColor];
     [sourceTextView addSubview:popover];
 
-    if (self.element.range &&
-        sscanf(self.element.range.UTF8String, "%ld %ld",
-               &range.location, &range.length) == 2) {
-
-        lineNumberPlugin.undoText = undoText;
-        lineNumberPlugin.undoRange = range;
-
+    if (self.element.range)
         [self performSelector:@selector(showUndoButton) withObject:nil afterDelay:REVERT_DELAY];
-    }
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
@@ -400,28 +386,30 @@ static LNXcodeSupport *lineNumberPlugin;
 
 - (void)performUndo:(NSButton *)sender {
     SourceEditorContentView *sourceTextView = [self editorContentView];
-    NSString *buffer = sourceTextView.accessibilityValue;
-    NSRange safeRange = NSMakeRange(lineNumberPlugin.undoRange.location - 1,
-                                    MAX(lineNumberPlugin.undoRange.length, 1)), range;
-    range.location = [buffer indexForLine:safeRange.location];
-    range.length = [buffer indexForLine:safeRange.location + safeRange.length] - range.location;
-    NSLog(@"performUndo: %@", [buffer substringWithRange:range]);
+    NSRange lineRange, charRange;
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     LNConfig config = self.extension.config;
-    if ([[NSAlert alertWithMessageText:config[LNApplyTitleKey] ?: @"Line Number Plugin:"
+    if (sscanf(self.element.range.UTF8String ?: "", "%ld %ld", &lineRange.location, &lineRange.length) != 2 ||
+        [[NSAlert alertWithMessageText:config[LNApplyTitleKey] ?: @"Line Number Plugin:"
                          defaultButton:config[LNApplyConfirmKey] ?: @"Modify"
                        alternateButton:@"Cancel"
                            otherButton:nil
              informativeTextWithFormat:config[LNApplyPromptKey] ?: @"Apply suggested changes at line %d-%d?",
-          (int)safeRange.location + 1, (int)(safeRange.location + safeRange.length)]
+          (int)lineRange.location, (int)(lineRange.location + MAX(lineRange.length, 1) - 1)]
          runModal] == NSAlertAlternateReturn)
         return;
 #pragma clang diagnostic pop
 
-    [sourceTextView setAccessibilitySelectedTextRange:range];
-    [sourceTextView setAccessibilitySelectedText:lineNumberPlugin.undoText];
+    lineRange.location--;
+    NSString *buffer = sourceTextView.accessibilityValue;
+    charRange.location = [buffer indexForLine:lineRange.location];
+    charRange.length = [buffer indexForLine:lineRange.location + lineRange.length] - charRange.location;
+    NSLog(@"performUndo: %@ %@", sourceTextView, [buffer substringWithRange:charRange]);
+
+    [sourceTextView setAccessibilitySelectedTextRange:charRange];
+    [sourceTextView setAccessibilitySelectedText:self.element.attributedText.string];
 }
 
 @end

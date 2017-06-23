@@ -978,13 +978,14 @@
 					BBD03B861E8E09B7001B966D = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 9V5A8WE85E;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						TestTargetID = BBD03B771E8E09B6001B966D;
 					};
 					BBD03B911E8E09B7001B966D = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 9V5A8WE85E;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						TestTargetID = BBD03B771E8E09B6001B966D;
 					};
