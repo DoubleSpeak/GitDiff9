@@ -116,6 +116,10 @@ static LNXcodeSupport *lineNumberPlugin;
     });
 }
 
+- (void)updateGutter:(NSString *)filepath {
+    self.onupdate[filepath]();
+}
+
 - (void)updateLinenumberHighlightsForFile:(NSString *)filepath {
     for (LNExtensionClient *extension in self.extensions)
         [extension requestHighlightsForFile:filepath];
@@ -199,13 +203,16 @@ static LNXcodeSupport *lineNumberPlugin;
 
     NSString *filepath = [self editedDocPath];
     [lineNumberPlugin initialOrOccaisionalLineNumberUpdate:filepath];
+    NSLog(@"%@ %@", self, filepath);
 
     __weak NSScroller *weakSelf = self;
-    (lineNumberPlugin.onupdate[filepath] = ^{
-        NSLog(@"%@ %@", self, filepath);
+    lineNumberPlugin.onupdate[filepath] = ^{
         [weakSelf updateLineNumberFlecksFor:filepath];
         [weakSelf updateScrollbarMarkersFor:filepath in:rect];
-    })();
+    };
+
+    [NSObject cancelPreviousPerformRequestsWithTarget:lineNumberPlugin];
+    [lineNumberPlugin performSelector:@selector(updateGutter:) withObject:filepath afterDelay:.1];
 }
 
 - (void)updateLineNumberFlecksFor:(NSString *)filepath {
