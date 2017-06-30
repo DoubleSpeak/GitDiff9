@@ -248,21 +248,21 @@ static LNXcodeSupport *lineNumberPlugin;
     for (NSNumber *line in lineNumberLayers) {
         SourceEditorFontSmoothingTextLayer *layer = lineNumberLayers[line];
         NSRect rect = layer.frame;
-        rect.origin.x = NSWidth(highlightGutter.frame) - 4.;
+        rect.size.width = LNFLECK_WIDTH;
+        rect.size.height = lineHeight;
+        rect.origin.x = NSWidth(highlightGutter.frame) - NSWidth(rect);
         rect.origin.y = NSHeight(highlightGutter.frame) -
                         lineNumberGutter.frame.origin.y - rect.origin.y - lineHeight + 4.;
-        rect.size.width = 6.;
-        rect.size.height += 5.;
         for (LNExtensionClient *extension in lineNumberPlugin.extensions.reverseObjectEnumerator) {
             if (LNFileHighlights *diffs = extension[filepath]) {
                 if (LNHighlightElement *element = diffs[line.integerValue + 1]) {
                     LNHighlightFleck *fleck = [LNHighlightFleck fleck];
-                    rect.origin.x -= 2.;
                     fleck.frame = rect;
                     fleck.element = element;
                     fleck.extension = extension;
                     fleck.yoffset = [lineNumberLayers[@(element.start - 1)] frame].origin.y;
                     [next addObject:fleck];
+                    rect.origin.x -= LNFLECK_VISIBLE;
                 }
             }
         }

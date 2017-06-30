@@ -6,14 +6,10 @@
 //  Copyright © 2017 John Holdsworth. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "LNExtensionClient.h"
 
-#import "LNFileHighlights.h"
-
-#define FLECK_WIDTH 6.
-#define FLECK_VISIBLE 2.
-
-@class LNExtensionClient;
+#define LNFLECK_WIDTH 6.
+#define LNFLECK_VISIBLE 2.
 
 @interface LNHighlightGutter : NSView
 @end

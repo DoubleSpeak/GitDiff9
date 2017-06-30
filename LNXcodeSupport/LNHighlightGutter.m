@@ -39,14 +39,10 @@ static NSMutableArray<LNHighlightFleck *> *queue;
     [super drawRect:dirtyRect];
 
     // Drawing code here.
-    dirtyRect.origin.x += 4.;
-    dirtyRect.size.width -= 4.;
+    dirtyRect.origin.x = NSWidth(dirtyRect) - LNFLECK_VISIBLE;
+    dirtyRect.size.width = LNFLECK_VISIBLE;
     [self.element.color setFill];
     NSRectFill(dirtyRect);
-}
-
-- (NSTextView *)sourceTextView {
-    return self.superview.superview.superview.subviews[0].subviews[0];
 }
 
 // https://stackoverflow.com/questions/11188034/mouseentered-and-mouseexited-not-called-in-nsimageview-subclass
