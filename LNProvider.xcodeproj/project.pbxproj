@@ -136,6 +136,20 @@
 			remoteGlobalIDString = BBD03BE21E8E10EC001B966D;
 			remoteInfo = GitDiffImpl;
 		};
+		BBC61C471F06B6F100C28D56 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BBD03B701E8E09B6001B966D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BB582DAB1E928FDC00FC1CD7;
+			remoteInfo = FormatImpl;
+		};
+		BBC61C491F06B70900C28D56 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BBD03B701E8E09B6001B966D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BBF493921E96A26100DB7817;
+			remoteInfo = UnusedImpl;
+		};
 		BBD03B881E8E09B7001B966D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BBD03B701E8E09B6001B966D /* Project object */;
@@ -724,6 +738,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				BBC61C481F06B6F100C28D56 /* PBXTargetDependency */,
 			);
 			name = FormatRelay;
 			productName = FormatRelay;
@@ -911,6 +926,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				BBC61C4A1F06B70900C28D56 /* PBXTargetDependency */,
 			);
 			name = UnusedRelay;
 			productName = UnusedRelay;
@@ -1363,6 +1379,16 @@
 			isa = PBXTargetDependency;
 			target = BBD03BE21E8E10EC001B966D /* GitDiffImpl */;
 			targetProxy = BB61178E1E8F5F5F0051F63E /* PBXContainerItemProxy */;
+		};
+		BBC61C481F06B6F100C28D56 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BB582DAB1E928FDC00FC1CD7 /* FormatImpl */;
+			targetProxy = BBC61C471F06B6F100C28D56 /* PBXContainerItemProxy */;
+		};
+		BBC61C4A1F06B70900C28D56 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BBF493921E96A26100DB7817 /* UnusedImpl */;
+			targetProxy = BBC61C491F06B70900C28D56 /* PBXContainerItemProxy */;
 		};
 		BBD03B891E8E09B7001B966D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
