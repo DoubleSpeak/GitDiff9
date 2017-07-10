@@ -80,7 +80,7 @@
 }
 
 - (void)getConfig:(LNConfigCallback)callback {
-    NSLog(@"getConfig: %@", callback);
+    NSLog(@"-[%@ getConfig: %p]", self, callback);
 }
 
 - (void)getConfig {
@@ -137,10 +137,11 @@
 }
 
 - (void)ping:(int)test callback:(void (^)(int))callback {
-    NSLog(@"PING");
+    NSLog(@"-[%@ ping:callback:]", self);
 }
 
 - (void)deregister {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [self.registrationDO deregisterService:self.serviceName];
 }
 

@@ -131,8 +131,9 @@ static LNXcodeSupport *lineNumberPlugin;
 
 - (void)initialOrOccaisionalLineNumberUpdate:(NSString *)filepath {
     // update if not already in memory or 60 seconds has passed
+    NSTimeInterval stale = [NSDate timeIntervalSinceReferenceDate] - REFRESH_INTERVAL;
     for (LNExtensionClient *extension in self.extensions) {
-        if (extension[filepath].updated < [NSDate timeIntervalSinceReferenceDate] - REFRESH_INTERVAL) {
+        if (extension[filepath].updated < stale) {
             if (!extension[filepath])
                 extension.highightsByFile[filepath] = [[LNFileHighlights alloc] initWithData:nil
                                                                                      service:extension.serviceName];
@@ -203,7 +204,7 @@ static LNXcodeSupport *lineNumberPlugin;
 
     NSString *filepath = [self editedDocPath];
     [lineNumberPlugin initialOrOccaisionalLineNumberUpdate:filepath];
-    NSLog(@"%@ %@", self, filepath);
+    NSLog(@"ln_drawKnobSlotInRect: %@ %@", self, filepath);
 
     __weak NSScroller *weakSelf = self;
     lineNumberPlugin.onupdate[filepath] = ^{
@@ -228,7 +229,8 @@ static LNXcodeSupport *lineNumberPlugin;
     } else
         lineNumberGutter = [floating objectAtIndex:floating.count - 2];
 
-    NSLog(@">>>>>>>>>>> %@ %@ %@", highlightGutter, NSStringFromRect(highlightGutter.frame), lineNumberGutter);
+    NSLog(@"updateLineNumberFlecksFor: %@ %@ %@", highlightGutter,
+          NSStringFromRect(highlightGutter.frame), lineNumberGutter);
     if (![lineNumberGutter respondsToSelector:@selector(lineNumberLayers)])
         return;
 
@@ -324,7 +326,7 @@ static LNXcodeSupport *lineNumberPlugin;
 - (void)mouseEntered:(NSEvent *)theEvent {
     if (!self.element.text)
         return;
-    NSLog(@"Mouse entered %@", self);
+    NSLog(@"mouseEntered: %@", self);
 //    NSUInteger start = self.element.start;
     NSMutableAttributedString *attString = [[self.element attributedText] mutableCopy];
 
@@ -372,13 +374,11 @@ static LNXcodeSupport *lineNumberPlugin;
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
-    NSLog(@"Mouse exited %@", self);
     [lineNumberPlugin.popover removeFromSuperview];
     [lineNumberPlugin.undoButton removeFromSuperview];
 }
 
 - (void)showUndoButton {
-    NSLog(@"showUndoButton: %@", lineNumberPlugin.popover.superview);
     if (lineNumberPlugin.popover.superview) {
         NSButton *undoButton = lineNumberPlugin.undoButton;
         undoButton.action = @selector(performUndo:);
@@ -386,7 +386,6 @@ static LNXcodeSupport *lineNumberPlugin;
 
         CGFloat width = NSWidth(self.superview.frame);
         undoButton.frame = NSMakeRect(0, self.frame.origin.y + width, width, width);
-        NSLog(@"showUndoButton: %@", NSStringFromRect(undoButton.frame));
         [self.superview addSubview:undoButton];
     }
 }
