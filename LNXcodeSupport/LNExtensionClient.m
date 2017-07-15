@@ -129,7 +129,7 @@
         }
 #if 0
     NSLog(@"%@: %@ %@ %@ %@ %@ %@",
-          self.serviceName, filepath, self.clientDO, error, self.highightsByFile,
+          self.serviceName, filepath, self.pluginDO, error, self.highightsByFile,
           [[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding], error);
 #endif
     [self.pluginDO updateHighlights:json error:error forFile:filepath];

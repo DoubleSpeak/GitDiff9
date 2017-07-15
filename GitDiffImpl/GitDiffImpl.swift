@@ -26,7 +26,7 @@ open class GitDiffImpl: LNExtensionBase, LNExtensionService {
     open func requestHighlights(forFile filepath: String, callback: @escaping LNHighlightCallback) {
         DispatchQueue.global().async {
             let url = URL(fileURLWithPath: filepath)
-            var arguments = ["git", "diff", "-b", "--no-ext-diff", "--no-color"]
+            var arguments = ["git", "diff", "--no-ext-diff", "--no-color"]
             if lineNumberDefaults.showHead {
                 arguments.append("HEAD")
             }
