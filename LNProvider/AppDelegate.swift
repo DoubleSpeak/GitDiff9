@@ -17,7 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet var formatChecked: NSButton!
     @IBOutlet var gitDiffChecked: NSButton!
     @IBOutlet var gitBlameChecked: NSButton!
-    @IBOutlet var unusedChecked: NSButton!
+    @IBOutlet var inferChecked: NSButton!
 
     var services = [LNExtensionClient]()
     private var statusItem: NSStatusItem!
@@ -26,18 +26,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.formatChecked: "com.johnholdsworth.FormatRelay",
         self.gitDiffChecked: "com.johnholdsworth.GitDiffRelay",
         self.gitBlameChecked: "com.johnholdsworth.GitBlameRelay",
-        self.unusedChecked: "com.johnholdsworth.UnusedRelay",
+        self.inferChecked: "com.johnholdsworth.InferRelay",
     ]
 
     func applicationDidFinishLaunching(_: Notification) {
-        // Insert code here to initialize your application
         startServiceAndRegister(checkButton: formatChecked)
         startServiceAndRegister(checkButton: gitDiffChecked)
         startServiceAndRegister(checkButton: gitBlameChecked)
-        startServiceAndRegister(checkButton: unusedChecked)
+        startServiceAndRegister(checkButton: inferChecked)
         let statusBar = NSStatusBar.system()
         statusItem = statusBar.statusItem(withLength: statusBar.thickness)
-        statusItem.toolTip = "LineNumber"
+        statusItem.toolTip = "GitDiff Preferences"
         statusItem.highlightMode = true
         statusItem.target = self
         statusItem.action = #selector(show(sender:))
@@ -78,7 +77,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_: Notification) {
-        // Insert code here to tear down your application
         _ = services.map { $0.deregister() }
     }
 

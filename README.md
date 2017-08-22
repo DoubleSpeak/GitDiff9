@@ -6,7 +6,7 @@ A port of the "GitDiff" Xcode plugin to the Xcode 9 beta now that the Source edi
 * Unstaged differences against a project's git repo
 * Highlight of changes committed in the last week
 * Format linting hints provided by swiftformat and clang-format
-* An indication that code is unused using an Xcode 8 indexdb
+* A viewer that makes explicit inferred types in declarations.
 
 To use, clone this project and build target "LNXcodeSupport". You'll need to [unsign your Xcode binary](https://github.com/fpg1503/MakeXcodeGr8Again) for the Xcode side of the plugin to load. The user interface is largely as it was before.
 

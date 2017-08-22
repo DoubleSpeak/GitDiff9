@@ -19,7 +19,7 @@ open class DefaultManager: NSObject {
     @IBOutlet weak var extraColorWell: NSColorWell!
     @IBOutlet weak var recentColorWell: NSColorWell!
     @IBOutlet weak var formatColorWell: NSColorWell!
-    @IBOutlet weak var unusedColorWell: NSColorWell!
+    @IBOutlet weak var inferColorWell: NSColorWell!
 
     @IBOutlet weak var recentDaysField: NSTextField!
     @IBOutlet weak var formatIndentField: NSTextField!
@@ -31,7 +31,7 @@ open class DefaultManager: NSObject {
     open var extraKey:    String { return "ExtraColor" }
     open var recentKey:   String { return "RecentColor" }
     open var formatKey:   String { return "FormatColor" }
-    open var unusedKey:   String { return "UnusedColor" }
+    open var inferKey:    String { return "InferColor" }
 
     open var showHeadKey: String { return "ShowHead" }
     open var recentDaysKey: String { return "RecentDays" }
@@ -45,7 +45,7 @@ open class DefaultManager: NSObject {
         self.extraColorWell:    self.extraKey,
         self.recentColorWell:   self.recentKey,
         self.formatColorWell:   self.formatKey,
-        self.unusedColorWell:   self.unusedKey,
+        self.inferColorWell:    self.inferKey,
     ]
 
     open override func awakeFromNib() {
@@ -90,7 +90,7 @@ open class DefaultManager: NSObject {
         extraColorWell?.color    = extraColor
         recentColorWell?.color   = recentColor
         formatColorWell?.color   = formatColor
-        unusedColorWell?.color   = unusedColor
+        inferColorWell?.color    = inferColor
         awakeFromNib()
     }
 
@@ -126,8 +126,8 @@ open class DefaultManager: NSObject {
         return defaultColor(for: formatKey, default: "0.129 0.313 1 1")
     }
 
-    open var unusedColor: NSColor {
-        return defaultColor(for: unusedKey, default: "1 0 0 1")
+    open var inferColor: NSColor {
+        return defaultColor(for: inferKey, default: "1 0 0 1")
     }
 
     open var showHead: Bool {

@@ -87,16 +87,10 @@
 		BBE616171E9456B400678E2D /* clang_format.sh in Resources */ = {isa = PBXBuildFile; fileRef = BBE616161E9455AA00678E2D /* clang_format.sh */; };
 		BBE6161A1E9466D000678E2D /* clang-format in Resources */ = {isa = PBXBuildFile; fileRef = BBE616181E9466D000678E2D /* clang-format */; };
 		BBE6161B1E9466D000678E2D /* swiftformat in Resources */ = {isa = PBXBuildFile; fileRef = BBE616191E9466D000678E2D /* swiftformat */; };
-		BBF493871E96A16B00DB7817 /* UnusedRelay.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = BBF4937C1E96A16B00DB7817 /* UnusedRelay.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		BBF4939E1E96A26100DB7817 /* UnusedImpl.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = BBF493931E96A26100DB7817 /* UnusedImpl.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		BBF493AC1E96A28000DB7817 /* ByteRegex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF493A31E96A28000DB7817 /* ByteRegex.swift */; };
-		BBF493AD1E96A28000DB7817 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF493A41E96A28000DB7817 /* Entity.swift */; };
-		BBF493AE1E96A28000DB7817 /* IndexDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF493A51E96A28000DB7817 /* IndexDB.swift */; };
-		BBF493AF1E96A28000DB7817 /* IndexStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF493A61E96A28000DB7817 /* IndexStrings.swift */; };
-		BBF493B01E96A28000DB7817 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF493A71E96A28000DB7817 /* Project.swift */; };
-		BBF493B11E96A28000DB7817 /* UnusedImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF493A81E96A28000DB7817 /* UnusedImpl.swift */; };
-		BBF493B21E96A28000DB7817 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = BBF493AA1E96A28000DB7817 /* Utils.m */; };
-		BBF493B41E96A2DC00DB7817 /* UnusedImpl.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBF493931E96A26100DB7817 /* UnusedImpl.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BBF493871E96A16B00DB7817 /* InferRelay.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = BBF4937C1E96A16B00DB7817 /* InferRelay.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BBF4939E1E96A26100DB7817 /* InferImpl.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = BBF493931E96A26100DB7817 /* InferImpl.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BBF493B11E96A28000DB7817 /* InferImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF493A81E96A28000DB7817 /* InferImpl.swift */; };
+		BBF493B41E96A2DC00DB7817 /* InferImpl.xpc in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBF493931E96A26100DB7817 /* InferImpl.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BBF493B51E96A31F00DB7817 /* LNFileHighlights.mm in Sources */ = {isa = PBXBuildFile; fileRef = BBD03C3A1E8E1B10001B966D /* LNFileHighlights.mm */; };
 		BBF493B61E96A31F00DB7817 /* NSColor+NSString.m in Sources */ = {isa = PBXBuildFile; fileRef = BBD03C411E8E3CAB001B966D /* NSColor+NSString.m */; };
 		BBF493B71E96A31F00DB7817 /* LNExtensionBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6117531E8F14280051F63E /* LNExtensionBase.swift */; };
@@ -107,8 +101,18 @@
 		BBF493BD1E96A3D400DB7817 /* LNExtensionBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6117531E8F14280051F63E /* LNExtensionBase.swift */; };
 		BBF493BE1E96A3D400DB7817 /* LNExtensionRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD03C2C1E8E16E2001B966D /* LNExtensionRelay.swift */; };
 		BBF493BF1E96A6A500DB7817 /* FormatImpl.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = BB582DAC1E928FDC00FC1CD7 /* FormatImpl.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CE1761141F4C5CFB001A4535 /* infer.mm in Sources */ = {isa = PBXBuildFile; fileRef = CE5718991F4C5525007B1933 /* infer.mm */; };
 		CE284D9B1EEB06AA0069FB12 /* LNProvider.app in Resources */ = {isa = PBXBuildFile; fileRef = BBD03B781E8E09B6001B966D /* LNProvider.app */; };
 		CE3B2D1F1EEA5F2B0019599C /* KeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3B2D1C1EEA5EC40019599C /* KeyPath.swift */; };
+		CE5718981F4C5494007B1933 /* infer.sh in Resources */ = {isa = PBXBuildFile; fileRef = CE5718971F4C548D007B1933 /* infer.sh */; };
+		CE57189B1F4C555C007B1933 /* infer in Resources */ = {isa = PBXBuildFile; fileRef = CE5718901F4C51EE007B1933 /* infer */; };
+		CE57189C1F4C5581007B1933 /* DiffProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD43BA81E932155009F31E3 /* DiffProcessor.swift */; };
+		CE57189D1F4C5780007B1933 /* DiffMatchPatch.m in Sources */ = {isa = PBXBuildFile; fileRef = BB364C4B1E953DA30084EFA7 /* DiffMatchPatch.m */; };
+		CE57189E1F4C5780007B1933 /* DiffMatchPatchCFUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BB364C4D1E953DA30084EFA7 /* DiffMatchPatchCFUtilities.m */; };
+		CE57189F1F4C5780007B1933 /* DMDiff.m in Sources */ = {isa = PBXBuildFile; fileRef = BB364C501E953DA30084EFA7 /* DMDiff.m */; };
+		CE5718A01F4C5780007B1933 /* DMPatch.m in Sources */ = {isa = PBXBuildFile; fileRef = BB364C521E953DA30084EFA7 /* DMPatch.m */; };
+		CE5718A11F4C57AB007B1933 /* LineGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB49FB5B1E8E6F6500AE564C /* LineGenerators.swift */; };
+		CE5718A61F4C59CA007B1933 /* sourcekitd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE5718A51F4C59CA007B1933 /* sourcekitd.framework */; };
 		CE828E891EE9BA0500E3AE5E /* LNHighlightGutter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE828E881EE9BA0500E3AE5E /* LNHighlightGutter.m */; };
 		CECFAA991EEB0307009C3A3C /* icon_16x16.tiff in Resources */ = {isa = PBXBuildFile; fileRef = CECFAA981EEB0307009C3A3C /* icon_16x16.tiff */; };
 		CED6A7371EEB305C00C9FA24 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CED6A7361EEB2B9F00C9FA24 /* README.md */; };
@@ -213,6 +217,13 @@
 			remoteGlobalIDString = BBD03B771E8E09B6001B966D;
 			remoteInfo = LNProvider;
 		};
+		CE5718A21F4C57CB007B1933 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BBD03B701E8E09B6001B966D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE57188F1F4C51EE007B1933;
+			remoteInfo = infer;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -262,13 +273,13 @@
 			dstSubfolderSpec = 16;
 			files = (
 				BBF493BF1E96A6A500DB7817 /* FormatImpl.xpc in Embed XPC Services */,
-				BBF4939E1E96A26100DB7817 /* UnusedImpl.xpc in Embed XPC Services */,
+				BBF4939E1E96A26100DB7817 /* InferImpl.xpc in Embed XPC Services */,
 				BBD03C141E8E1120001B966D /* GitBlameImpl.xpc in Embed XPC Services */,
 				BBD03C011E8E110A001B966D /* GitBlameRelay.xpc in Embed XPC Services */,
 				BBD03BDB1E8E10D7001B966D /* GitDiffRelay.xpc in Embed XPC Services */,
 				BB582DA41E928FCA00FC1CD7 /* FormatRelay.xpc in Embed XPC Services */,
 				BBD03BEE1E8E10EC001B966D /* GitDiffImpl.xpc in Embed XPC Services */,
-				BBF493871E96A16B00DB7817 /* UnusedRelay.xpc in Embed XPC Services */,
+				BBF493871E96A16B00DB7817 /* InferRelay.xpc in Embed XPC Services */,
 			);
 			name = "Embed XPC Services";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,9 +290,18 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/XPCServices";
 			dstSubfolderSpec = 16;
 			files = (
-				BBF493B41E96A2DC00DB7817 /* UnusedImpl.xpc in CopyFiles */,
+				BBF493B41E96A2DC00DB7817 /* InferImpl.xpc in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE57188E1F4C51EE007B1933 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -370,24 +390,21 @@
 		BBE616161E9455AA00678E2D /* clang_format.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = clang_format.sh; sourceTree = "<group>"; };
 		BBE616181E9466D000678E2D /* clang-format */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "clang-format"; sourceTree = "<group>"; };
 		BBE616191E9466D000678E2D /* swiftformat */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = swiftformat; sourceTree = "<group>"; };
-		BBF4937C1E96A16B00DB7817 /* UnusedRelay.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = UnusedRelay.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBF4937C1E96A16B00DB7817 /* InferRelay.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = InferRelay.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBF493841E96A16B00DB7817 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BBF4938B1E96A1A400DB7817 /* UnusedRelay-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UnusedRelay-Bridging-Header.h"; sourceTree = "<group>"; };
-		BBF4938E1E96A1D400DB7817 /* UnusedRelay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UnusedRelay.entitlements; sourceTree = "<group>"; };
-		BBF493931E96A26100DB7817 /* UnusedImpl.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = UnusedImpl.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBF4938B1E96A1A400DB7817 /* InferRelay-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "InferRelay-Bridging-Header.h"; sourceTree = "<group>"; };
+		BBF4938E1E96A1D400DB7817 /* InferRelay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InferRelay.entitlements; sourceTree = "<group>"; };
+		BBF493931E96A26100DB7817 /* InferImpl.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = InferImpl.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBF4939B1E96A26100DB7817 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BBF493A21E96A28000DB7817 /* UnusedImpl-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UnusedImpl-Bridging-Header.h"; sourceTree = "<group>"; };
-		BBF493A31E96A28000DB7817 /* ByteRegex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteRegex.swift; sourceTree = "<group>"; };
-		BBF493A41E96A28000DB7817 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
-		BBF493A51E96A28000DB7817 /* IndexDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexDB.swift; sourceTree = "<group>"; };
-		BBF493A61E96A28000DB7817 /* IndexStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexStrings.swift; sourceTree = "<group>"; };
-		BBF493A71E96A28000DB7817 /* Project.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
-		BBF493A81E96A28000DB7817 /* UnusedImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnusedImpl.swift; sourceTree = "<group>"; };
-		BBF493A91E96A28000DB7817 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
-		BBF493AA1E96A28000DB7817 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
-		BBF493AB1E96A28000DB7817 /* Xcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Xcode.h; sourceTree = "<group>"; };
+		BBF493A21E96A28000DB7817 /* InferImpl-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "InferImpl-Bridging-Header.h"; sourceTree = "<group>"; };
+		BBF493A81E96A28000DB7817 /* InferImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InferImpl.swift; sourceTree = "<group>"; };
 		BBF493B91E96A35700DB7817 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		CE3B2D1C1EEA5EC40019599C /* KeyPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPath.swift; sourceTree = "<group>"; };
+		CE5718901F4C51EE007B1933 /* infer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = infer; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE5718971F4C548D007B1933 /* infer.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = infer.sh; sourceTree = "<group>"; };
+		CE5718991F4C5525007B1933 /* infer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = infer.mm; path = InferImpl/infer.mm; sourceTree = SOURCE_ROOT; };
+		CE5718A41F4C57F7007B1933 /* sourcekitd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = sourcekitd.h; path = InferImpl/sourcekitd.h; sourceTree = SOURCE_ROOT; };
+		CE5718A51F4C59CA007B1933 /* sourcekitd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sourcekitd.framework; path = Toolchains/XcodeDefault.xctoolchain/usr/lib/sourcekitd.framework; sourceTree = DEVELOPER_DIR; };
 		CE828E871EE9BA0500E3AE5E /* LNHighlightGutter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNHighlightGutter.h; sourceTree = "<group>"; };
 		CE828E881EE9BA0500E3AE5E /* LNHighlightGutter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LNHighlightGutter.m; sourceTree = "<group>"; };
 		CECFAA981EEB0307009C3A3C /* icon_16x16.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = icon_16x16.tiff; path = Assets.xcassets/AppIcon.appiconset/icon_16x16.tiff; sourceTree = "<group>"; };
@@ -480,6 +497,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CE57188D1F4C51EE007B1933 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE5718A61F4C59CA007B1933 /* sourcekitd.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -532,6 +557,7 @@
 		BB744C661E91BBD700BCE6EC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE5718A51F4C59CA007B1933 /* sourcekitd.framework */,
 				BBF493B91E96A35700DB7817 /* libsqlite3.tbd */,
 				BB7CBC171E9209FE00DD5855 /* Cocoa.framework */,
 				BB744C671E91BBD700BCE6EC /* CoreImage.framework */,
@@ -555,8 +581,8 @@
 				BBD03BE41E8E10EC001B966D /* GitDiffImpl */,
 				BB582D9A1E928FCA00FC1CD7 /* FormatRelay */,
 				BB582DAD1E928FDC00FC1CD7 /* FormatImpl */,
-				BBF4937D1E96A16B00DB7817 /* UnusedRelay */,
-				BBF493941E96A26100DB7817 /* UnusedImpl */,
+				BBF4937D1E96A16B00DB7817 /* InferRelay */,
+				BBF493941E96A26100DB7817 /* InferImpl */,
 				BBD03B791E8E09B6001B966D /* Products */,
 				BB744C661E91BBD700BCE6EC /* Frameworks */,
 			);
@@ -575,8 +601,9 @@
 				BBD03C091E8E1120001B966D /* GitBlameImpl.xpc */,
 				BB582D991E928FCA00FC1CD7 /* FormatRelay.xpc */,
 				BB582DAC1E928FDC00FC1CD7 /* FormatImpl.xpc */,
-				BBF4937C1E96A16B00DB7817 /* UnusedRelay.xpc */,
-				BBF493931E96A26100DB7817 /* UnusedImpl.xpc */,
+				BBF4937C1E96A16B00DB7817 /* InferRelay.xpc */,
+				BBF493931E96A26100DB7817 /* InferImpl.xpc */,
+				CE5718901F4C51EE007B1933 /* infer */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -695,32 +722,27 @@
 			name = SharedXPC;
 			sourceTree = "<group>";
 		};
-		BBF4937D1E96A16B00DB7817 /* UnusedRelay */ = {
+		BBF4937D1E96A16B00DB7817 /* InferRelay */ = {
 			isa = PBXGroup;
 			children = (
 				BBF493841E96A16B00DB7817 /* Info.plist */,
-				BBF4938E1E96A1D400DB7817 /* UnusedRelay.entitlements */,
-				BBF4938B1E96A1A400DB7817 /* UnusedRelay-Bridging-Header.h */,
+				BBF4938E1E96A1D400DB7817 /* InferRelay.entitlements */,
+				BBF4938B1E96A1A400DB7817 /* InferRelay-Bridging-Header.h */,
 			);
-			path = UnusedRelay;
+			path = InferRelay;
 			sourceTree = "<group>";
 		};
-		BBF493941E96A26100DB7817 /* UnusedImpl */ = {
+		BBF493941E96A26100DB7817 /* InferImpl */ = {
 			isa = PBXGroup;
 			children = (
-				BBF493A81E96A28000DB7817 /* UnusedImpl.swift */,
-				BBF493A41E96A28000DB7817 /* Entity.swift */,
-				BBF493A71E96A28000DB7817 /* Project.swift */,
-				BBF493A51E96A28000DB7817 /* IndexDB.swift */,
-				BBF493A61E96A28000DB7817 /* IndexStrings.swift */,
-				BBF493A31E96A28000DB7817 /* ByteRegex.swift */,
-				BBF493A91E96A28000DB7817 /* Utils.h */,
-				BBF493AA1E96A28000DB7817 /* Utils.m */,
-				BBF493AB1E96A28000DB7817 /* Xcode.h */,
+				BBF493A81E96A28000DB7817 /* InferImpl.swift */,
+				CE5718991F4C5525007B1933 /* infer.mm */,
+				CE5718971F4C548D007B1933 /* infer.sh */,
 				BBF4939B1E96A26100DB7817 /* Info.plist */,
-				BBF493A21E96A28000DB7817 /* UnusedImpl-Bridging-Header.h */,
+				CE5718A41F4C57F7007B1933 /* sourcekitd.h */,
+				BBF493A21E96A28000DB7817 /* InferImpl-Bridging-Header.h */,
 			);
-			path = UnusedImpl;
+			path = InferImpl;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -914,9 +936,9 @@
 			productReference = BBD03C091E8E1120001B966D /* GitBlameImpl.xpc */;
 			productType = "com.apple.product-type.xpc-service";
 		};
-		BBF4937B1E96A16B00DB7817 /* UnusedRelay */ = {
+		BBF4937B1E96A16B00DB7817 /* InferRelay */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BBF493881E96A16B00DB7817 /* Build configuration list for PBXNativeTarget "UnusedRelay" */;
+			buildConfigurationList = BBF493881E96A16B00DB7817 /* Build configuration list for PBXNativeTarget "InferRelay" */;
 			buildPhases = (
 				BBF493781E96A16B00DB7817 /* Sources */,
 				BBF493791E96A16B00DB7817 /* Frameworks */,
@@ -928,14 +950,14 @@
 			dependencies = (
 				BBC61C4A1F06B70900C28D56 /* PBXTargetDependency */,
 			);
-			name = UnusedRelay;
+			name = InferRelay;
 			productName = UnusedRelay;
-			productReference = BBF4937C1E96A16B00DB7817 /* UnusedRelay.xpc */;
+			productReference = BBF4937C1E96A16B00DB7817 /* InferRelay.xpc */;
 			productType = "com.apple.product-type.xpc-service";
 		};
-		BBF493921E96A26100DB7817 /* UnusedImpl */ = {
+		BBF493921E96A26100DB7817 /* InferImpl */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BBF4939F1E96A26100DB7817 /* Build configuration list for PBXNativeTarget "UnusedImpl" */;
+			buildConfigurationList = BBF4939F1E96A26100DB7817 /* Build configuration list for PBXNativeTarget "InferImpl" */;
 			buildPhases = (
 				BBF4938F1E96A26100DB7817 /* Sources */,
 				BBF493901E96A26100DB7817 /* Frameworks */,
@@ -944,11 +966,29 @@
 			buildRules = (
 			);
 			dependencies = (
+				CE5718A31F4C57CB007B1933 /* PBXTargetDependency */,
 			);
-			name = UnusedImpl;
+			name = InferImpl;
 			productName = UnusedImpl;
-			productReference = BBF493931E96A26100DB7817 /* UnusedImpl.xpc */;
+			productReference = BBF493931E96A26100DB7817 /* InferImpl.xpc */;
 			productType = "com.apple.product-type.xpc-service";
+		};
+		CE57188F1F4C51EE007B1933 /* infer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE5718961F4C51EE007B1933 /* Build configuration list for PBXNativeTarget "infer" */;
+			buildPhases = (
+				CE57188C1F4C51EE007B1933 /* Sources */,
+				CE57188D1F4C51EE007B1933 /* Frameworks */,
+				CE57188E1F4C51EE007B1933 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = infer;
+			productName = infer;
+			productReference = CE5718901F4C51EE007B1933 /* infer */;
+			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
@@ -1067,6 +1107,10 @@
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
+					CE57188F1F4C51EE007B1933 = {
+						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = 9V5A8WE85E;
+					};
 				};
 			};
 			buildConfigurationList = BBD03B731E8E09B6001B966D /* Build configuration list for PBXProject "LNProvider" */;
@@ -1090,8 +1134,9 @@
 				BBD03BE21E8E10EC001B966D /* GitDiffImpl */,
 				BB582D981E928FCA00FC1CD7 /* FormatRelay */,
 				BB582DAB1E928FDC00FC1CD7 /* FormatImpl */,
-				BBF4937B1E96A16B00DB7817 /* UnusedRelay */,
-				BBF493921E96A26100DB7817 /* UnusedImpl */,
+				BBF4937B1E96A16B00DB7817 /* InferRelay */,
+				BBF493921E96A26100DB7817 /* InferImpl */,
+				CE57188F1F4C51EE007B1933 /* infer */,
 				BBD03B861E8E09B7001B966D /* LNProviderTests */,
 				BBD03B911E8E09B7001B966D /* LNProviderUITests */,
 			);
@@ -1197,6 +1242,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE5718981F4C5494007B1933 /* infer.sh in Resources */,
+				CE57189B1F4C555C007B1933 /* infer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1348,17 +1395,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBF493BB1E96A36300DB7817 /* main.swift in Sources */,
-				BBF493B11E96A28000DB7817 /* UnusedImpl.swift in Sources */,
+				BBF493B11E96A28000DB7817 /* InferImpl.swift in Sources */,
+				CE57189C1F4C5581007B1933 /* DiffProcessor.swift in Sources */,
 				BBF493B71E96A31F00DB7817 /* LNExtensionBase.swift in Sources */,
 				BBF493B81E96A34100DB7817 /* DefaultManager.swift in Sources */,
+				CE5718A11F4C57AB007B1933 /* LineGenerators.swift in Sources */,
 				BBF493B51E96A31F00DB7817 /* LNFileHighlights.mm in Sources */,
 				BBF493B61E96A31F00DB7817 /* NSColor+NSString.m in Sources */,
-				BBF493B21E96A28000DB7817 /* Utils.m in Sources */,
-				BBF493AD1E96A28000DB7817 /* Entity.swift in Sources */,
-				BBF493B01E96A28000DB7817 /* Project.swift in Sources */,
-				BBF493AE1E96A28000DB7817 /* IndexDB.swift in Sources */,
-				BBF493AF1E96A28000DB7817 /* IndexStrings.swift in Sources */,
-				BBF493AC1E96A28000DB7817 /* ByteRegex.swift in Sources */,
+				CE57189D1F4C5780007B1933 /* DiffMatchPatch.m in Sources */,
+				CE57189E1F4C5780007B1933 /* DiffMatchPatchCFUtilities.m in Sources */,
+				CE57189F1F4C5780007B1933 /* DMDiff.m in Sources */,
+				CE5718A01F4C5780007B1933 /* DMPatch.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE57188C1F4C51EE007B1933 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE1761141F4C5CFB001A4535 /* infer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1387,7 +1442,7 @@
 		};
 		BBC61C4A1F06B70900C28D56 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = BBF493921E96A26100DB7817 /* UnusedImpl */;
+			target = BBF493921E96A26100DB7817 /* InferImpl */;
 			targetProxy = BBC61C491F06B70900C28D56 /* PBXContainerItemProxy */;
 		};
 		BBD03B891E8E09B7001B966D /* PBXTargetDependency */ = {
@@ -1422,18 +1477,23 @@
 		};
 		BBF493861E96A16B00DB7817 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = BBF4937B1E96A16B00DB7817 /* UnusedRelay */;
+			target = BBF4937B1E96A16B00DB7817 /* InferRelay */;
 			targetProxy = BBF493851E96A16B00DB7817 /* PBXContainerItemProxy */;
 		};
 		BBF4939D1E96A26100DB7817 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = BBF493921E96A26100DB7817 /* UnusedImpl */;
+			target = BBF493921E96A26100DB7817 /* InferImpl */;
 			targetProxy = BBF4939C1E96A26100DB7817 /* PBXContainerItemProxy */;
 		};
 		CE284D9A1EEB06A00069FB12 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BBD03B771E8E09B6001B966D /* LNProvider */;
 			targetProxy = CE284D991EEB06A00069FB12 /* PBXContainerItemProxy */;
+		};
+		CE5718A31F4C57CB007B1933 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE57188F1F4C51EE007B1933 /* infer */;
+			targetProxy = CE5718A21F4C57CB007B1933 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1891,14 +1951,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = UnusedRelay/UnusedRelay.entitlements;
+				CODE_SIGN_ENTITLEMENTS = InferRelay/InferRelay.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = UnusedRelay/Info.plist;
+				INFOPLIST_FILE = InferRelay/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.johnholdsworth.UnusedRelay;
+				PRODUCT_BUNDLE_IDENTIFIER = com.johnholdsworth.InferRelay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "UnusedRelay/UnusedRelay-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "InferRelay/InferRelay-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Debug;
@@ -1908,14 +1968,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = UnusedRelay/UnusedRelay.entitlements;
+				CODE_SIGN_ENTITLEMENTS = InferRelay/InferRelay.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = UnusedRelay/Info.plist;
+				INFOPLIST_FILE = InferRelay/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.johnholdsworth.UnusedRelay;
+				PRODUCT_BUNDLE_IDENTIFIER = com.johnholdsworth.InferRelay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "UnusedRelay/UnusedRelay-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "InferRelay/InferRelay-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -1924,13 +1984,13 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = UnusedImpl/Info.plist;
+				INFOPLIST_FILE = InferImpl/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks @executable_path/../../../../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_BUNDLE_IDENTIFIER = com.johnholdsworth.UnusedImpl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.johnholdsworth.InferImpl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "UnusedImpl/UnusedImpl-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "InferImpl/InferImpl-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 3.0;
 			};
@@ -1941,14 +2001,42 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = UnusedImpl/Info.plist;
+				INFOPLIST_FILE = InferImpl/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks @executable_path/../../../../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				PRODUCT_BUNDLE_IDENTIFIER = com.johnholdsworth.UnusedImpl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.johnholdsworth.InferImpl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "UnusedImpl/UnusedImpl-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "InferImpl/InferImpl-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		CE5718941F4C51EE007B1933 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				FRAMEWORK_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		CE5718951F4C51EE007B1933 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				FRAMEWORK_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -2054,7 +2142,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BBF493881E96A16B00DB7817 /* Build configuration list for PBXNativeTarget "UnusedRelay" */ = {
+		BBF493881E96A16B00DB7817 /* Build configuration list for PBXNativeTarget "InferRelay" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BBF493891E96A16B00DB7817 /* Debug */,
@@ -2063,11 +2151,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BBF4939F1E96A26100DB7817 /* Build configuration list for PBXNativeTarget "UnusedImpl" */ = {
+		BBF4939F1E96A26100DB7817 /* Build configuration list for PBXNativeTarget "InferImpl" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BBF493A01E96A26100DB7817 /* Debug */,
 				BBF493A11E96A26100DB7817 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE5718961F4C51EE007B1933 /* Build configuration list for PBXNativeTarget "infer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE5718941F4C51EE007B1933 /* Debug */,
+				CE5718951F4C51EE007B1933 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

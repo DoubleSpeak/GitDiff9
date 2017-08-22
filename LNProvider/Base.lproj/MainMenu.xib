@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13122.17" systemVersion="16F73" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13178.6" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13122.17"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13178.6"/>
         <capability name="box content view" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,6 +19,7 @@
                 <outlet property="formatChecked" destination="hjs-JX-og6" id="mdp-8k-uLC"/>
                 <outlet property="gitBlameChecked" destination="Pqz-W6-zbo" id="kTO-p2-ixY"/>
                 <outlet property="gitDiffChecked" destination="eT5-nF-Y4k" id="nqf-M7-Qxc"/>
+                <outlet property="inferChecked" destination="FLQ-tb-n9h" id="9G5-jM-i1t"/>
                 <outlet property="unusedChecked" destination="FLQ-tb-n9h" id="vS6-mi-hDJ"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
@@ -823,7 +824,7 @@
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JGx-R1-bRm">
                                     <rect key="frame" x="142" y="126" width="68" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Unused:" id="9zg-O9-lTV">
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Infer:" id="9zg-O9-lTV">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -832,9 +833,9 @@
                                 <colorWell fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Agq-YM-8aJ">
                                     <rect key="frame" x="210" y="122" width="44" height="23"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <color key="color" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="color" red="0.64629319070000002" green="0.91966731879999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <connections>
-                                        <action selector="colorChangedWithSender:" target="qiD-Eu-hB1" id="FVv-mr-4Fa"/>
+                                        <action selector="colorChangedWithSender:" target="qiD-Eu-hB1" id="ZNp-FR-KPV"/>
                                     </connections>
                                 </colorWell>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G2s-PK-VbW">
@@ -954,9 +955,9 @@ Gw
                         </connections>
                     </button>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FLQ-tb-n9h">
-                        <rect key="frame" x="28" y="18" width="97" height="18"/>
+                        <rect key="frame" x="28" y="18" width="90" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Unsed Code" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="cJj-k3-fg6">
+                        <buttonCell key="cell" type="check" title="Infer Types" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="cJj-k3-fg6">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -1007,11 +1008,11 @@ Gw
                 <outlet property="extraColorWell" destination="f4D-ft-zi8" id="54M-AY-aoa"/>
                 <outlet property="formatColorWell" destination="bbp-yn-eCF" id="WeY-vH-vvj"/>
                 <outlet property="formatIndentField" destination="o4m-JV-aZG" id="6kS-dg-bUL"/>
+                <outlet property="inferColorWell" destination="Agq-YM-8aJ" id="NAM-NW-zzY"/>
                 <outlet property="modifiedColorWell" destination="6GQ-K6-Lfd" id="qAa-I2-UBG"/>
                 <outlet property="popoverColorWell" destination="ZoW-qF-8Ry" id="dwh-Ds-o35"/>
                 <outlet property="recentColorWell" destination="OK0-wR-KYX" id="car-s5-zA5"/>
                 <outlet property="recentDaysField" destination="G2s-PK-VbW" id="nwz-w8-bLi"/>
-                <outlet property="unusedColorWell" destination="Agq-YM-8aJ" id="n4K-lE-U1P"/>
             </connections>
         </customObject>
         <userDefaultsController representsSharedInstance="YES" id="bNo-NB-OMw"/>
